@@ -12,33 +12,50 @@ The following example demonstrates the usage of EOS's in-memory database.
 
 Storage is the simplest function of the database, and the following code demonstrates this functionality.
 
-```python
-# db_example1.codon
 
-from chain.database import primary
-from chain.contract import Contract
+[db_example1](https://github.com/learnforpractice/gscdk-book/tree/main/examples/db_example1)
 
-@table("mytable")
-class A(object):
-    a: primary[u64]
-    b: str
-    def __init__(self, a: u64, b: str):
-        self.a = primary[u64](a)
-        self.b = b
+```go
+package main
 
-@contract(main=True)
-class MyContract(Contract):
+import (
+	"github.com/uuosio/chain"
+)
 
-    def __init__(self):
-        super().__init__()
+// table mytable
+type A struct {
+	a uint64 //primary
+	b string
+}
 
-    @action('teststore')
-    def test_store(self):
-        print('db_test')
-        item = A(123u64, 'hello, world')
-        table = A.new_table(n'hello', n'')
-        table.store(item, n'hello')
+// contract test
+type MyContract struct {
+	Receiver      chain.Name
+	FirstReceiver chain.Name
+	Action        chain.Name
+}
+
+func NewContract(receiver, firstReceiver, action chain.Name) *MyContract {
+	return &MyContract{receiver, firstReceiver, action}
+}
+
+// action teststore
+func (c *MyContract) TestStore(name string) {
+	code := c.Receiver
+	payer := c.Receiver
+	mydb := NewATable(code)
+	data := &A{123, "hello, world"}
+	mydb.Store(data, payer)
+}
 ```
+
+The code above is explained as follows:
+
+- The comment `// table mytable` instructs the compiler to generate code related to the table, such as NewATable, which is the generated code. The generated code is stored in the file `generated.go`.
+- The comment `// contract test` indicates that `MyContract` is a smart contract class, which will also guide the compiler to generate additional code.
+- `// action teststore` indicates that the `TestStore` method is an `action` and will be triggered by the Action structure included in the Transaction.
+- `NewATable(code)` is used to create a table, which is stored in the account specified by `code`. In this test case, it is the `hello` account.
+- The line of code `mydb.Store(data, payer)` stores data in the on-chain database. The `payer` is used to specify which account pays for the RAM resources, and it is necessary to have already signed with the `active` authority of the account in the Transaction.
 
 Compile:
 

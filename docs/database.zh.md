@@ -4,51 +4,68 @@ comments: true
 
 # 数据库的操作
 
-链上数据存储和读取是智能合约的一个重要功能。EOS链实现了一个内存数据库，支持以表的方式来存储数据，其中，每一个表的每一项数据都有唯一的主索引，称之为primary key，类型为u64，表中存储的原始数据为任意长度的二进制数据，在智能合约调用存储数据的功能时，会将类的数据序列化后存进表中，在读取的时候又会通过反序列化的方式将原始数据转成类对象。并且还支持u64, u128, u256, double, long double类型的二级索引表，可以把二级索引表看作数据长度固定的特殊的表。主索引表和二级索引表可以配合起来使用，以实现多重索引的功能。二级索引表可以有多个。二级索引表的值是可以重复的，但是主索引表的主索引必须是唯一的。
+链上数据存储和读取是智能合约的一个重要功能。EOS链实现了一个内存数据库，支持以表的方式来存储数据，其中，每一个表的每一项数据都有唯一的主索引，称之为primary key，类型为uint64，表中存储的原始数据为任意长度的二进制数据，在智能合约调用存储数据的功能时，会将类的数据序列化后存进表中，在读取的时候又会通过反序列化的方式将原始数据转成类对象。并且还支持uint64, Uint128, Uint256, Float64, Float128类型的二级索引表，可以把二级索引表看作数据长度固定的特殊的表。主索引表和二级索引表可以配合起来使用，以实现多重索引的功能。二级索引表可以有多个。二级索引表的值是可以重复的，但是主索引表的主索引必须是唯一的。
 
 下面结合示例来讲解下EOS的链上的内存数据库的使用。
 
-## store
+## Store
 
 存储功能是数据库最简单的功能了，下面的代码即演示了该功能。
 
-```python
-# db_example1.codon
+[db_example1](https://github.com/learnforpractice/gscdk-book/tree/main/examples/db_example1)
 
-from chain.database import primary
-from chain.contract import Contract
+```go
+package main
 
-@table("mytable")
-class A(object):
-    a: primary[u64]
-    b: str
-    def __init__(self, a: u64, b: str):
-        self.a = primary[u64](a)
-        self.b = b
+import (
+	"github.com/uuosio/chain"
+)
 
-@contract(main=True)
-class MyContract(Contract):
+// table mytable
+type A struct {
+	a uint64 //primary
+	b string
+}
 
-    def __init__(self):
-        super().__init__()
+// contract test
+type MyContract struct {
+	Receiver      chain.Name
+	FirstReceiver chain.Name
+	Action        chain.Name
+}
 
-    @action('teststore')
-    def test_store(self):
-        print('db_test')
-        item = A(123u64, 'hello, world')
-        table = A.new_table(n'hello', n'')
-        table.store(item, n'hello')
+func NewContract(receiver, firstReceiver, action chain.Name) *MyContract {
+	return &MyContract{receiver, firstReceiver, action}
+}
+
+// action teststore
+func (c *MyContract) TestStore(name string) {
+	code := c.Receiver
+	payer := c.Receiver
+	mydb := NewATable(code)
+	data := &A{123, "hello, world"}
+	mydb.Store(data, payer)
+}
 ```
+
+解释一下上面的代码：
+- `// table mytable`这行注释指引编译器生成表相关的代码，如NewATable即是生成的代码，生成的代码保存在generated.go这个文件里。
+- `// contract test`这行注释表示`MyContract`是一个智能合约类，同样会指引编译器生成额外的代码
+- `// action teststore`表示`TestStore`方法是一个`action`，会通过包含在Transaction中的Action结构来触发
+- `NewATable(code)`指定创建一个表，表保存在`code`指定的账号里，在这个测试例子里是`hello`这个账号。
+- `mydb.Store(data, payer)`这行代码即将数据保存到链上的数据库中。其中的payer用于指定哪个账号支付RAM资源，并且需要在Transaction中已经用账号的`active`权限签名。
 
 编译：
 
-```
-python-contract build db_example/db_example1.codon
+```bash
+cd examples/db_example1
+go-contract build .
 ```
 
 ```bash
 ipyeos -m pytest -s -x test.py -k test_store
 ```
+
 运行的测试代码如下：
 
 ```python
@@ -59,19 +76,19 @@ def test_store():
     logger.info("++++++++++%s\n", ret['elapsed'])
 ```
 
-注意在这个示例中，如果表中已经存在以`123u64`为key的数据，那么该函数会抛出异常。
+注意在这个示例中，如果表中已经存在以`123`类型为`uint64`的主索引的数据，那么该函数会抛出异常。
 
 如将上面的测试用例修改成下面的代码：
 
 ```python
 def test_example1():
     t = init_db_test('db_example1')
-    ret = t.push_action('hello', 'test', "", {'hello': 'active'})
+    ret = t.push_action('hello', 'teststore', "", {'hello': 'active'})
     t.produce_block()
     logger.info("++++++++++%s\n", ret['elapsed'])
 
     # will raise exception
-    ret = t.push_action('hello', 'test', "", {'hello': 'active'})
+    ret = t.push_action('hello', 'teststore', "", {'hello': 'active'})
     t.produce_block()
 ```
 
@@ -81,57 +98,52 @@ def test_example1():
 could not insert object, most likely a uniqueness constraint was violated
 ```
 
-为了不抛出异常，在要更新表中的数据时，则要用到`update`方法。
-在调用`store`之前要先对表中是否存在主索引进行判断，如果已经存在，则不能调用`store`方法，而必须调用`update`方法。
+为了不抛出异常，在要更新表中的数据时，则要用到`Update`方法。
+在调用`Store`之前要先对表中是否存在主索引进行判断，如果已经存在，则不能调用`Store`方法，而必须调用`Update`方法。
 以下的示例展示了用法：
                                                                                                     
-## find/update
+## Find/Update
 
 这一节演示了数据库的查找和更新功能。
 
-```python
-# db_example1.codon
+```go
+// db_example1
 
-...
+// action testupdate
+func (c *MyContract) TestUpdate() {
+	code := c.Receiver
+	payer := c.Receiver
+	mydb := NewATable(code)
+	it, data := mydb.GetByKey(123)
+	chain.Check(it.IsOk(), "bad key")
+	chain.Println("+++++++old value:", data.b)
+	data.b = "goodbye world"
+	mydb.Update(it, data, payer)
+	chain.Println("done!")
+}
 
-@contract(main=True)
-class MyContract(Contract):
-
-...
-
-    @action('testupdate')
-    def test_update(self, value: str):
-        print('db_test')
-        table = A.new_table(n'hello', n'')
-        key = 123u64
-        it = table.find(key)
-        if it.is_ok():
-            print('+++++update value:', value)
-            item = A(key, value)
-            table.update(it, item, n'hello')
-        else:
-            print('+++++store value:', value)
-            item = A(key, value)
-            table.store(item, n'hello')
 ```
 
 以下为测试代码：
 
 ```python
-def test_update():
-    t = init_db_test('db_example1')
-    ret = t.push_action('hello', 'testupdate', {'value': 'hello, bob'}, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_update(tester):
+    deploy_contract(tester, 'db_example1')
 
-    ret = t.push_action('hello', 'testupdate', {'value': 'hello, alice'}, {'hello': 'active'})
-    t.produce_block()
+    r = tester.push_action('hello', 'teststore', b'', {'hello': 'active'})
+    tester.produce_block()
+
+    r = tester.push_action('hello', 'testupdate', b'', {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 编译：
 
-```
-python-contract build db_example/db_example1.codon
+```bash
+cd examples/db_example1
+go-contract build .
 ```
 
 用下面的命令来运行测试代码：
@@ -140,76 +152,83 @@ python-contract build db_example/db_example1.codon
 ipyeos -m pytest -s -x test.py -k test_update
 ```
 
-在调用
+在调用:
+
 ```python
-t.push_action('hello', 'testupdate', {'value': 'hello, bob'}, {'hello': 'active'})
+r = tester.push_action('hello', 'testupdate', b'', {'hello': 'active'})
 ```
 
 会输出：
 
 ```
-+++++store value: hello, bob
++++++++old value: hello, world
 ```
 
-再次调用 `testupdate`：
-
-```python
-t.push_action('hello', 'testupdate', {'value': 'hello, alice'}, {'hello': 'active'})
-```
-
-会输出：
-
-```
-+++++update value: hello, alice
-```
-
-可以看出，上面的代码稍微有点复杂，首先要调用`find`判断和主索引对应的值存不存在，再决定是调用`store`还是`update`。需要注意的是，在更新的过程中，**主索引的值是不能变的**，否则会抛出异常。
+可以看出，上面的代码稍微有点复杂，首先要调用`GetByKey`获取`Iterator`和存储的值，通过`it.IsOk()`判断和主索引对应的值存不存在，再调用`Update`更新数据。其中的payer用于指定哪个账号支持RAM资源，并且需要在Transaction中已经用账号的`active`权限签名。需要注意的是，在更新的过程中，**主索引的值是不能变的**，否则会抛出异常。
 
 可以试着将update的代码修改成：
 
-```python
-item = A(key+1u64, value)
-table.update(it, item, n'hello')
+```go
+data.a = 1
+data.b = "goodbye world"
 ```
 
-你将会看到到智能合约里抛出的异常
+你将会看到到智能合约里抛出的有如下指示的异常:
+
+```
+mi.Update: Can not change primary key during update
+```
                                                                                                     
-## remove
+## Remove
 
 下面的代码演示了如何去删除数据库中的一项数据。
 
-```python
-# db_example/db_example1.codon
+```go
+// db_example1
+// action testremove
+func (c *MyContract) TestRemove() {
+	code := c.Receiver
+	mydb := NewATable(code)
+	it := mydb.Find(123)
+	chain.Check(it.IsOk(), "key 123 does not exists!")
 
-@action('testremove')
-def test_remove(self):
-    print('test remove')
-    item = A(123u64, 'hello, world')
-    table = A.new_table(n'hello', n'')
-    table.store(item, n'hello')
+	mydb.Remove(it)
 
-    it = table.find(123u64)
-    assert it.is_ok()
-    table.remove(it)
+	it = mydb.Find(123)
+	chain.Check(!it.IsOk(), "something went wrong")
+	chain.Println("+++++done!")
+}
+```
 
-    it = table.find(123u64)
-    assert not it.is_ok()
+上面的代码先调用`mydb.Find(123)`方法来查找指定的数据，然后再调用`Remove`删除，调用`it.IsOk()`以检查指定的索引所在的数据存不存在。
+
+**注意：**
+
+这里的`Remove`并不需要调用`Store`或者`Update`所指定的payer账号的权限即可删除数据，所以，在实际的应用中，需要通过调用`chain.RequireAuth`来确保指定账号的权限才可以删除数据，例如：
+```go
+	chain.RequireAuth(chain.NewName("hello"))
 ```
 
 测试代码：
 
 ```python
-def test_remove():
-    t = init_db_test('db_example1')
-    ret = t.push_action('hello', 'testremove', "", {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_remove(tester):
+    deploy_contract(tester, 'db_example1')
+
+    r = tester.push_action('hello', 'teststore', b'', {'hello': 'active'})
+    tester.produce_block()
+
+    r = tester.push_action('hello', 'testremove', b'', {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 编译：
 
-```
-python-contract build db_example/db_example1.codon
+```bash
+cd examples/db_example1
+go-contract build .
 ```
 
 测试：
@@ -217,11 +236,8 @@ python-contract build db_example/db_example1.codon
 ```bash
 ipyeos -m pytest -s -x test.py -k test_remove
 ```
-
-
-上面的代码先调用`store`方法来存储索引为`123u64`的数据，然后再再调用`remove`删除，调用`assert`以检查结果。如果一切正常，程序将不会抛出任何的异常。
                                                                                                     
-## lowerbound/upperbound
+## Lowerbound/Upperbound
 
 这两个方法也是用来查找给中的元素的，不同于`find`方法，这两个函数用于模糊查找。其中，`lowerbound`方法返回`>=`指定`id`的`Iterator`，`upperbound`方法返回`>`指定`id`的`Iterator`，下面来看下用法：
 
@@ -883,4 +899,4 @@ ipyeos -m pytest -s -x test.py -k test_example6
 ## 总结
 EOS中的数据存储功能是比较完善的，并且有二级索引表的功能，使数据的查找变得非常的灵活。本章详细讲解了数据库表的增，删，改，查的代码。本章的内容较多，需要花点时间好好消化。可以在示例的基础上作些改动，并且尝试运行以增加对这章知识点的理解。
 
-[示例代码](https://github.com/learnforpractice/pscdk-book/tree/main/examples/db_example)
+[示例代码](https://github.com/learnforpractice/pscdk-book/tree/main/examples)

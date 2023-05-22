@@ -1,0 +1,50 @@
+{
+    "version": "eosio::abi/1.1",
+    "structs": [
+        {
+            "name": "A",
+            "base": "",
+            "fields": [
+                {
+                    "name": "a",
+                    "type": "uint64"
+                },
+                {
+                    "name": "b",
+                    "type": "string"
+                }
+            ]
+        },
+        {
+            "name": "teststore",
+            "base": "",
+            "fields": [
+                {
+                    "name": "name",
+                    "type": "string"
+                }
+            ]
+        }
+    ],
+    "types": [],
+    "actions": [
+        {
+            "name": "teststore",
+            "type": "teststore",
+            "ricardian_contract": ""
+        }
+    ],
+    "tables": [
+        {
+            "name": "mytable",
+            "type": "A",
+            "index_type": "i64",
+            "key_names": [],
+            "key_types": []
+        }
+    ],
+    "ricardian_clauses": [],
+    "variants": [],
+    "abi_extensions": [],
+    "error_messages": []
+}
