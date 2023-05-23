@@ -49,6 +49,7 @@ func (c *MyContract) TestStore(name string) {
 ```
 
 解释一下上面的代码：
+
 - `// table mytable`这行注释指引编译器生成表相关的代码，如NewATable即是生成的代码，生成的代码保存在generated.go这个文件里。
 - `// contract test`这行注释表示`MyContract`是一个智能合约类，同样会指引编译器生成额外的代码
 - `// action teststore`表示`TestStore`方法是一个`action`，会通过包含在Transaction中的Action结构来触发
@@ -239,7 +240,7 @@ ipyeos -m pytest -s -x test.py -k test_remove
                                                                                                     
 ## Lowerbound/Upperbound
 
-这两个方法也是用来查找给中的元素的，不同于`find`方法，这两个函数用于模糊查找。其中，`lowerbound`方法返回`>=`指定`id`的`Iterator`，`upperbound`方法返回`>`指定`id`的`Iterator`，下面来看下用法：
+这两个方法也是用来查找表中的元素的，不同于`find`方法，这两个函数用于模糊查找。其中，`lowerbound`方法返回`>=`指定`id`的`Iterator`，`upperbound`方法返回`>`指定`id`的`Iterator`，下面来看下用法：
 
 ```go
 // examples/db_example1
@@ -294,7 +295,7 @@ ipyeos -m pytest -s -x test.py -k test_bound
                                                                                                     
 ## 利用API来对表进行查询
 
-上面的例子都是讲的如果通过智能合约来操作链上的数据库的表，实际上，通过EOS提供的链下的`get_table_rows`的API的接口，也同样可以对链上的表进行查询工作。在`ipyeos`的`ChainTester`这个类中和`pyeoskit`的`ChainApiAsync`和`ChainApi`这两个类，都提供了`get_table_rows`接口，以方便对表进行查询操作
+上面的例子都是讲的如何通过智能合约来操作链上的数据库的表，实际上，通过EOS提供的链下的`get_table_rows`的API的接口，也同样可以对链上的表进行查询工作。在`ipyeos`的`ChainTester`这个类中和`pyeoskit`的`ChainApiAsync`和`ChainApi`这两个类，都提供了`get_table_rows`接口，以方便对表进行查询操作
 
 在Python代码中，`get_table_rows`的定义如下
 
@@ -313,12 +314,13 @@ def get_table_rows(self, _json, code, scope, table,
 ```
 
 解释下这个接口的参数：
+
 - `_json`: True 返回json格式的数据，False返回16进制表示的原始数据
 - `code`： 表所在的账号，
 - `scope`： 一般设置为空字符串，当有相同的`code`，`table`时，不同的`scope`可以用来区别不同的表
 - `table`： 要查询的数据表名
-- `lower_bound`：查询起始主键，字符串类型，为空时表示从起始位置开始查询
-- `upper_bound`：查询结束主键，字符串类型，为空时表示没有设置上限，将返回>=`lower_bound`的所有值
+- `lower_bound`：查询起始主键，字符串类型或者数值类型，字符串类型时可以表示一个`name`类型，如果是以`0x`开头的十六进制字符串，则表示一个数值类型,为空时表示从起始位置开始查询
+- `upper_bound`：查询结束主键，字符串类型或者数值类型，字符串类型时可以表示一个`name`类型，如果是以`0x`开头的十六进制字符串，则表示一个数值类型, 为空时表示没有设置上限，将返回>=`lower_bound`的所有值
 - `limit`：用于限制返回的值的个数
 - `key_type`：用于指定索引的类型,默认为64位的无符号整数类型
 - `index_position`：用于指定索引的相对位置，为空或者为`1`表示主索引，从`2`以上表示二重索引的位置
@@ -484,8 +486,9 @@ chain.Println("+++++++test update done!")
 ```
 
 简述下过程：
-- `idxb := mytable.GetIdxTableByb()` 获取`b`的二重索引
-- `secondaryIt := idxb.Find(2)`查找二重索引的类型为uint64的值`2`，返回的`SecondaryIterator`类型的`secondaryIt`。
+
+- `idxb := mytable.GetIdxTableByb()` 获取`b`的二重索引，`GetIdxTableByb`是一个自动生成的函数，代码可以在`generated.go`中找到
+- `secondaryIt := idxb.Find(2)`查找二重索引的类型为`uint64`的值`2`，返回的值`secondaryIt`为`SecondaryIterator`类型
 - **`mytable.IdxUpdate(secondaryIt, uint64(3), payer)`** 这行代码即是实现了更新的功能，更新`b`的值为`3`，这里的`3`必须显式的转换成uint64类型，否则因为默认3是一个`int64`类型，会因类型不正确而抛出异常
 - `secondaryIt = idxb.Find(3)`查找新的二重索引
 - `chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1, "secondary index 3 not found")` 用于确认二重索引是否更新成功，注意，这里还会判断主索引是否为`1`

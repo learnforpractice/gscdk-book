@@ -4,7 +4,9 @@ comments: true
 
 # ABI类型详解
 
-# 内置的ABI类型
+ABI是Application Binary Interface的缩写，ABI文件为json格式，描述了action相关的参数和表结构，方便开发者和链上的智能合约和数据进行交互。
+
+## 内置的ABI类型
 
 以下是内置的ABI类型，一共31个
 
@@ -21,57 +23,47 @@ name bytes string bool uint64 checksum256
 public_key signature symbol asset extended_asset
 ```
                                                                                                     
-# ABI中的内置数据类型和Python中的数据类型的对应关系表
-
-下面的这张表显示了ABI中的内置类型和Python中的类型的对应关系.
-
-需要说明一下的是，所以这些和Python对应的类型虽然有些属于不同的模块，但是都已经事先import到global的环境中了，所以开发者在使用的过程中，Python中对应的这些ABI类型可以直接用，不用再去用例如下面的方式来import:
-
-```python
-from chain.crypto import PublicKey
-```
-
-当然，重复import也不会有什么影响
+## ABI中的内置数据类型和Python中的数据类型的对应关系表
 
 关系表：
 
-|         ABI 类型     |   Python 类型       |      所属模块    |
+|         ABI 类型     |   Go 类型       |      所属模块    |
 |:--------------------:|:------------------:|:------------------:|
 |         bool         |        bool        |   内置    |
-|         int8         |         i8         |   内置    |
-|         uint8        |         u8         |   内置    |
-|         int16        |         i16        |   内置    |
-|         int32        |         i32        |   内置    |
-|        uint32        |         u32        |   内置    |
-|         int64        |         i64        |   内置    |
-|        uint64        |         u64        |   内置    |
-|        int128        |        i128        |   内置    |
-|        uint128       |        u128        |   内置    |
-|       varint32       |      VarInt32      |   structs |
-|       varuint32      |      VarUint32     |   structs |
+|         int8         |         int8         |   内置    |
+|         uint8        |         uint8         |   内置    |
+|         int16        |         int16        |   内置    |
+|         int32        |         int32        |   内置    |
+|        uint32        |         uint32        |   内置    |
+|         int64        |         int64        |   内置    |
+|        uint64        |         uint64        |   内置    |
+|        int128        |        chain.Int128        |   内置    |
+|        uint128       |        chain.Uint128        |   内置    |
+|       varint32       |      chain.VarInt32      |   chain |
+|       varuint32      |      chain.VarUint32     |   chain |
 |        float32       |     float32        |  内置     |
-|        float64       |       float        |  内置     |
-|       float128       |      Float128      |  structs  |
-|      time_point      |      TimePoint     |  structs  |
-|    time_point_sec    |    TimePointSec    |  structs  |
-| block_timestamp_type | BlockTimestampType |  structs  |
-|         name         |        Name        |  name  |
-|         bytes        |        bytes       |  内置  |
-|        string        |        str         |  内置  |
-|      checksum160     |     Checksum160    |  crypto  |
-|      checksum256     |   Checksum256/u256 |  crypto  |
-|      checksum512     |     Checksum512    |  crypto  |
-|      public_key      |      PublicKey     |  crypto  |
-|       signature      |      Signature     |  crypto  |
-|        symbol        |       Symbol       | asset   |
-|      symbol_code     |     SymbolCode     | asset   |
-|         asset        |        Asset       | asset   |
-|    extended_asset    |    ExtendedAsset   | asset   |
+|        float64       |       float64        |  内置     |
+|       float128       |      chain.Float128      |  chain  |
+|      time_point      |      chain.TimePoint     |  chain  |
+|    time_point_sec    |    chain.TimePointSec    |  chain  |
+| block_timestamp_type | chain.BlockTimestampType |  chain  |
+|         name         |        chain.Name        |  name  |
+|         bytes        |        []byte       |  内置  |
+|        string        |        string         |  内置  |
+|      checksum160     |     chain.Checksum160    |  chain  |
+|      checksum256     |   chain.Checksum256 |  chain  |
+|      checksum512     |     chain.Checksum512    |  chain  |
+|      public_key      |      chain.PublicKey     |  chain  |
+|       signature      |      chain.Signature     |  chain  |
+|        symbol        |       chain.Symbol       | asset   |
+|      symbol_code     |     chain.SymbolCode     | asset   |
+|         asset        |        chain.Asset       | asset   |
+|    extended_asset    |    chain.ExtendedAsset   | asset   |
                                                                                                     
-# 特别的ABI类型
+## 特别的ABI类型
 
-## optional
+### optional
 
-## variant
+### variant
 
-## binaryextension
+### binaryextension

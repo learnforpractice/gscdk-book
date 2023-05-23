@@ -25,46 +25,38 @@ public_key signature symbol asset extended_asset
 
 The table below shows the correspondence between the built-in types in ABI and the types in Python.
 
-It should be noted that although some of these types corresponding to Python belong to different modules, they have all been imported into the global environment in advance. Therefore, developers can directly use these ABI types corresponding to Python without needing to import them in the following way:
-
-```python
-from chain.crypto import PublicKey
-```
-
-Of course, repeated imports will not have any impact.
-
-|         ABI Type     |   Python Type       |      Module    |
+|         ABI Type     |   Go Type       |      Module    |
 |:--------------------:|:------------------:|:------------------:|
 |         bool         |        bool        |   Built-in    |
-|         int8         |         i8         |   Built-in    |
-|         uint8        |         u8         |   Built-in    |
-|         int16        |         i16        |   Built-in    |
-|         int32        |         i32        |   Built-in    |
-|        uint32        |         u32        |   Built-in    |
-|         int64        |         i64        |   Built-in    |
-|        uint64        |         u64        |   Built-in    |
-|        int128        |        i128        |   Built-in    |
-|        uint128       |        u128        |   Built-in    |
-|       varint32       |      VarInt32      |   Structs |
-|       varuint32      |      VarUint32     |   Structs |
+|         int8         |         int8         |   Built-in    |
+|         uint8        |         uint8         |   Built-in    |
+|         int16        |         int16        |   Built-in    |
+|         int32        |         int32        |   Built-in    |
+|        uint32        |         uint32        |   Built-in    |
+|         int64        |         int64        |   Built-in    |
+|        uint64        |         uint64        |   Built-in    |
+|        int128        |        chain.Int128        |   Built-in    |
+|        uint128       |        chain.Uint128        |   Built-in    |
+|       varint32       |      chain.VarInt32      |   chain |
+|       varuint32      |      chain.VarUint32     |   chain |
 |        float32       |     float32        |  Built-in     |
-|        float64       |       float        |  Built-in     |
-|       float128       |      Float128      |  Structs  |
-|      time_point      |      TimePoint     |  Structs  |
-|    time_point_sec    |    TimePointSec    |  Structs  |
-| block_timestamp_type | BlockTimestampType |  Structs  |
-|         name         |        Name        |  Name  |
-|         bytes        |        bytes       |  Built-in  |
-|        string        |        str         |  Built-in  |
-|      checksum160     |     Checksum160    |  Crypto  |
-|      checksum256     |   Checksum256/u256 |  Crypto  |
-|      checksum512     |     Checksum512    |  Crypto  |
-|      public_key      |      PublicKey     |  Crypto  |
-|       signature      |      Signature     |  Crypto  |
-|        symbol        |       Symbol       | Asset   |
-|      symbol_code     |     SymbolCode     | Asset   |
-|         asset        |        Asset       | Asset   |
-|    extended_asset    |    ExtendedAsset   | Asset   |
+|        float64       |       float64        |  Built-in     |
+|       float128       |      chain.Float128      |  chain  |
+|      time_point      |      chain.TimePoint     |  chain  |
+|    time_point_sec    |    chain.TimePointSec    |  chain  |
+| block_timestamp_type | chain.BlockTimestampType |  chain  |
+|         name         |        chain.Name        |  name  |
+|         bytes        |        []byte       |  Built-in  |
+|        string        |        string         |  Built-in  |
+|      checksum160     |     chain.Checksum160    |  chain  |
+|      checksum256     |   chain.Checksum256 |  chain  |
+|      checksum512     |     chain.Checksum512    |  chain  |
+|      public_key      |      chain.PublicKey     |  chain  |
+|       signature      |      chain.Signature     |  chain  |
+|        symbol        |       chain.Symbol       | asset   |
+|      symbol_code     |     chain.SymbolCode     | asset   |
+|         asset        |        chain.Asset       | asset   |
+|    extended_asset    |    chain.ExtendedAsset   | asset   |
 
 ## Special ABI types
 
