@@ -66,7 +66,7 @@ def deploy_contract(tester, package_name):
 
 @chain_test
 def test_store(tester):
-    deploy_contract(tester, 'db_example1')
+    deploy_contract(tester, 'db_example2')
     r = tester.push_action('hello', 'teststore', b'', {'hello': 'active'})
     logger.info('++++++elapsed: %s', r['elapsed'])
     tester.produce_block()
@@ -77,7 +77,7 @@ def test_store(tester):
 
 @chain_test
 def test_update(tester):
-    deploy_contract(tester, 'db_example1')
+    deploy_contract(tester, 'db_example2')
 
     r = tester.push_action('hello', 'teststore', b'', {'hello': 'active'})
     tester.produce_block()
@@ -88,7 +88,7 @@ def test_update(tester):
 
 @chain_test
 def test_remove(tester):
-    deploy_contract(tester, 'db_example1')
+    deploy_contract(tester, 'db_example2')
 
     r = tester.push_action('hello', 'teststore', b'', {'hello': 'active'})
     tester.produce_block()
@@ -99,23 +99,20 @@ def test_remove(tester):
 
 @chain_test
 def test_bound(tester):
-    deploy_contract(tester, 'db_example1')
+    deploy_contract(tester, 'db_example2')
 
     r = tester.push_action('hello', 'testbound', b'', {'hello': 'active'})
     tester.produce_block()
 
 @chain_test
 def test_offchain_find(tester):
-    deploy_contract(tester, 'db_example1')
+    deploy_contract(tester, 'db_example2')
 
     r = tester.push_action('hello', 'testbound', b'', {'hello': 'active'})
     tester.produce_block()
 
-    r = tester.get_table_rows(False, 'hello', '', 'mytable', '', '', 10)
+    r = tester.get_table_rows(True, 'hello', '', 'mytable', '1', '', 10, key_type="i64", index_position="2")
     logger.info("+++++++rows: %s", r)
 
-    r = tester.get_table_rows(True, 'hello', '', 'mytable', '', '', 10)
-    logger.info("+++++++rows: %s", r)
-
-    r = tester.get_table_rows(True, 'hello', '', 'mytable', '1', '2', 10)
+    r = tester.get_table_rows(True, 'hello', '', 'mytable', '3', '', 10, key_type="i128", index_position="3")
     logger.info("+++++++rows: %s", r)
