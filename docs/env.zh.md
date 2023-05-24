@@ -37,7 +37,7 @@ macOS平台推荐使用[OrbStack](https://orbstack.dev/download)软件来安装d
 docker pull ghcr.io/uuosio/scdk:latest
 ```
 
-运行container:
+运行容器:
 
 ```bash
 docker run --entrypoint bash -it --rm -v "$(pwd)":/work -w /work -t ghcr.io/uuosio/scdk
