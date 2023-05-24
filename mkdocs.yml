@@ -25,7 +25,6 @@ nav:
     - 'common.md'
     - 'abi.md'
     - 'callc.md'
-    - 'codon.md'
 markdown_extensions:
   - pymdownx.superfences
   - pymdownx.tabbed:

@@ -2,82 +2,114 @@
 comments: true
 ---
 
-# require_recipient函数
+# RequireRecipient函数
 
-函数在`action.codon`中的声明如下：
+函数在`action.go`中的声明如下：
 
-```python
-def require_recipient(account: Name):
+```go
+func RequireRecipient(name Name)
 ```
 
-`require_recipient`函数用来通知其它合约. 如果account合约有相同的action，那么这个action将被调用。
+`RequireRecipient`函数用来通知其它合约. 如果account合约有相同的action，那么这个action将被调用。
 
-以下的`sender.codon`, `receiver.codon`的代码演示了如何从一个合约发送通知到另一个合约。
+以下的`sender`, `receiver`的代码演示了如何从一个合约发送通知到另一个合约。
 
-```python
-# sender.codon
-from chain.name import Name
-from chain.contract import Contract
-from chain.action import require_recipient
+[完整代码链接](https://github.com/learnforpractice/gscdk-book/tree/master/examples/notify)
 
-@contract(main=True)
-class MyContract(Contract):
+```go
+// sender
+package main
 
-    @action('sayhello')
-    def sayhello(self, receiver: Name):
-        print('hello, world')
-        require_recipient(receiver)
+import (
+	"github.com/uuosio/chain"
+)
+
+// contract sender
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
+
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
+
+// action sayhello
+func (c *Contract) SayHello() {
+	chain.Println("Hello, World!")
+	chain.RequireRecipient(chain.NewName("alice"))
+}
 ```
 
-```python
-# receiver.codon
-from chain.name import Name
-from chain.contract import Contract
+```go
+// receiver
+package main
 
-@contract(main=True)
-class MyContract(Contract):
+import (
+	"github.com/uuosio/chain"
+)
 
-    @action('sayhello', notify=True)
-    def sayhello(self, receiver: Name):
-        assert not self.receiver == self.first_receiver
-        assert receiver == self.receiver
-        print('hello, world from notify')
+// contract receiver
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
+
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
+
+// notify sayhello
+func (c *Contract) SayHello() {
+	chain.Println("hello world from alice!")
+}
 ```
 
-这里，要注意的是，`receiver.codon`中的`sayhello`函数和`sender.codon`中的`sayhello`函数的定义有些不同，`receiver.codon`中的`sayhello`的`action`decorator中多了`notify=True`，这是用来指定这个action是一个用来接收通知的action，只能通过调用`require_recipient`来触发。
+解释下代码：
+
+sender中调用下面的代码来发起通知：
+
+```go
+chain.RequireRecipient(chain.NewName("alice"))
+```
+
+`receiver`中的`SayHello`函数和`sender`中的`SayHello`函数的定义有些不同，`receiver`中的`SayHello`的添加的注释是`notify sayhello`，用来指定这个action是一个用来接收通知的action，只能通过调用`RequireRecipient`来触发。
+
 
 以下是测试代码：
 
 ```python
-def init_notify():
-    t = ChainTester(True)
-    update_auth(t, 'hello')
-
-    wasm_file = os.path.join(dir_name, 'notify/sender.wasm')
-    with open(wasm_file, 'rb') as f:
+test_dir = os.path.dirname(__file__)
+def deploy_contract(tester):
+    with open(f'{test_dir}/sender/sender.wasm', 'rb') as f:
         code = f.read()
-    abi_file = os.path.join(dir_name, 'notify/sender.abi')
-    with open(abi_file, 'r') as f:
+    with open(f'{test_dir}/sender/sender.abi', 'rb') as f:
         abi = f.read()
-    t.deploy_contract('hello', code, abi)
-    t.produce_block()
+    tester.deploy_contract('hello', code, abi)
 
-    wasm_file = os.path.join(dir_name, 'notify/receiver.wasm')
-    with open(wasm_file, 'rb') as f:
+    with open(f'{test_dir}/receiver/receiver.wasm', 'rb') as f:
         code = f.read()
-    abi_file = os.path.join(dir_name, 'notify/receiver.abi')
-    with open(abi_file, 'r') as f:
+    with open(f'{test_dir}/receiver/receiver.abi', 'rb') as f:
         abi = f.read()
-    t.deploy_contract('alice', code, abi)
-    t.produce_block()
-    return t
+    tester.deploy_contract('alice', code, abi)
 
-def test_notify():
-    t = init_notify()
-    args = {'receiver': 'alice'}
-    ret = t.push_action('hello', 'sayhello', args, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_notify(tester):
+    deploy_contract(tester)
+
+    r = tester.push_action('hello', 'sayhello', {}, {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 编译：
@@ -96,12 +128,14 @@ ipyeos -m pytest -s -x test.py -k test_notify
 
 ```
 [(hello,sayhello)->hello]: CONSOLE OUTPUT BEGIN =====================
-hello, world
+Hello, World!
 
 [(hello,sayhello)->hello]: CONSOLE OUTPUT END   =====================
-debug 2023-03-28T13:08:01.110 thread-0  apply_context.cpp:30          print_debug          ] 
+debug 2023-05-24T03:26:47.224 thread-0  apply_context.cpp:40          print_debug          ] 
 [(hello,sayhello)->alice]: CONSOLE OUTPUT BEGIN =====================
-hello, world from notify
+hello world from alice!
 
 [(hello,sayhello)->alice]: CONSOLE OUTPUT END   =====================
+INFO     test:test.py:58 ++++++elapsed: 409
+debug 2023-05-24T03:26:47.225 thread-0  controller.cpp:2499           clear_expired_input_ ] removed 0 expired transactions of the 50 input dedup list, pending block time 2018-06-01T12:00:03.500
 ```
