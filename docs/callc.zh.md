@@ -2,133 +2,109 @@
 comments: true
 ---
 
-# Codon代码里调用C/C++代码
-
-首先，用下面的命令安装`eoscdt`用于编译c或者是c++代码:
-
-```bash
-python3 -m pip install -U eoscdt
-```
+# Go代码里调用C/C++代码
 
 下面以编译`say_hello`函数为例，演示如何编译代码：
-
-如果源文件是c代码，例如：
-
-say_hello.c
-
-```c
-void prints(const char *s);
-
-void say_hello(const char *s) {
-	prints(s);
-}
-```
-
-则用下面的命令编译：
-
-```bash
-cdt-cc -c -o say_hello.o say_hello.c
-```
-
-
-如果源文件是c++代码，例如：
 
 say_hello.cpp
 
 ```cpp
-extern "C" void prints(const char *s);
+#include <eosio/print.hpp>
 
-extern "C" void say_hello(const char *s) {
-	prints(s);
+extern "C" void say_hello(const char *s, uint32_t len) {
+    std::string _s(s, len);
+    eosio::print(_s);
 }
 ```
 
-则用下面的命令编译：
+接下来看下如何在Go中使用`say_hello`这个函数：
 
-```bash
-cdt-cpp -c -o say_hello.o say_hello.cpp
-```
+```go
+package main
 
-注意，如果是C++文件，则需在函数前面加上`extern "C"`，否则会在链接时出错。
+/*
+#include <stdint.h>
+void say_hello(const char *s, uint32_t len);
+*/
+import "C"
 
-接下来看下如何在codon中使用`say_hello`这个函数：
+import (
+	"unsafe"
 
-test.codon
+	"github.com/uuosio/chain"
+)
 
-```python
-from chain.contract import Contract
+// table mytable
+type A struct {
+	a uint64        //primary
+	b uint64        //secondary
+	c chain.Uint128 //secondary
+	d string
+}
 
-from C import say_hello(cobj);
+// contract callcpp
+type MyContract struct {
+	Receiver      chain.Name
+	FirstReceiver chain.Name
+	Action        chain.Name
+}
 
-@contract(main=True)
-class MyContract(Contract):
+func NewContract(receiver, firstReceiver, action chain.Name) *MyContract {
+	return &MyContract{receiver, firstReceiver, action}
+}
 
-    @action("sayhello")
-    def say_hello(self):
-        say_hello("hello, world".c_str())
+type stringHeader struct {
+	data unsafe.Pointer
+	len  uintptr
+}
+
+func GetStringPtr(str string) *C.char {
+	if len(str) != 0 {
+		_str := (*stringHeader)(unsafe.Pointer(&str))
+		return (*C.char)(_str.data)
+	}
+	return (*C.char)(unsafe.Pointer(uintptr(0)))
+}
+
+// action sayhello
+func (c *MyContract) say_hello() {
+	str := "hello, world\n"
+	C.say_hello(GetStringPtr(str), C.uint32_t(len(str)))
+	chain.Println("++++++++test done!\n")
+}
 ```
 
 这里的
 
-```python
-from C import say_hello(cobj);
+```go
+/*
+#include <stdint.h>
+void say_hello(const char *s, uint32_t len);
+*/
+import "C"
 ```
 
-即告诉codon编译器要链接`say_hello`这个c函数。所有的C/C++里的指针类型都对应Codon里的`cobj`类型
+即告诉go编译器要链接`say_hello`这个c函数。
 
-下面的这行代码即是调用c函数，c_str返回的值是`cobj`类型, 相当于C/C++里的`const char *`类型
-
-```python
-say_hello("abc".c_str())
+下面的代码展示了如何调用这个函数：
+```go
+str := "hello, world\n"
+C.say_hello(GetStringPtr(str), C.uint32_t(len(str)))
 ```
 
-接下来用下面的命令来编译：
-
-```bash
-python-contract build --linker-flags="say_hello.o" test.codon
-```
-
-这里的`--linker-flags="say_hello.o`即是告诉编译器要链接`say_hello.o`这个obj文件
+这里用到了`GetStringPtr`用于获取`string`类型的原始指针。需要注意的是， Go里的原始字符串并不以`\0`结尾，所以这里需要指定一下长度参数，否则如果直接在C++代码中使用可能会引起不可预知的结果。
 
 接下来用下面的代码来测试：
 
 test.py
 
 ```python
-import os
-from ipyeos import eos
-from ipyeos import chaintester
-from ipyeos.chaintester import ChainTester
-from ipyeos import log
-from pyeoskit import eosapi
-
-chaintester.chain_config['contracts_console'] = True
-eos.set_log_level("default", 3)
-
-logger = log.get_logger(__name__)
-
-dir_name = os.path.dirname(os.path.abspath(__file__))
-
-def init_test(contract_name):
-    t = ChainTester(True)
-    wasm_file = os.path.join(dir_name, f'{contract_name}.wasm')
-    with open(wasm_file, 'rb') as f:
-        code = f.read()
-
-    abi_file = os.path.join(dir_name, f'{contract_name}.abi')
-    with open(abi_file, 'r') as f:
-        abi = f.read()
-
-    t.deploy_contract('hello', code, abi)
-    t.produce_block()
-    eos.set_log_level("default", 1)
-    return t
-
-def test_say_hello():
-    t = init_test('test')
-    ret = t.push_action('hello', 'sayhello', "", {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_say_hello(tester):
+    deploy_contract(tester, 'callcpp')
+    r = tester.push_action('hello', 'sayhello', b'', {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 运行测试：
@@ -143,4 +119,4 @@ ipyeos -m pytest -s -x test.py -k test_say_hello
 hello, world
 ```
 
-[完整代码链接](https://github.com/learnforpractice/pscdk-book/tree/main/examples/callc)
+[完整代码链接](https://github.com/learnforpractice/gscdk-book/tree/master/examples/callcpp)
