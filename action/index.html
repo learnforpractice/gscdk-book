@@ -19,7 +19,7 @@
     
     
       
-        <title>Action - Go Smart Contracts Development Cook Book</title>
+        <title>Use of Inline Action in Smart Contracts - Go Smart Contracts Development Cook Book</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#comments-true" class="md-skip">
+        <a href="#use-of-inline-action-in-smart-contracts" class="md-skip">
           Skip to content
         </a>
       
@@ -102,7 +102,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Action
+              Use of Inline Action in Smart Contracts
             
           </span>
         </div>
@@ -221,7 +221,7 @@
   
     <li class="md-nav__item">
       <a href="../env/" class="md-nav__link">
-        Env
+        Setting Up the Development Environment
       </a>
     </li>
   
@@ -286,46 +286,12 @@
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
       
+        
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Action
-          <span class="md-nav__icon md-icon"></span>
-        </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Action
+        Use of Inline Action in Smart Contracts
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#comments-true" class="md-nav__link">
-    comments: true
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-of-inline-action-in-smart-contracts" class="md-nav__link">
-    Use of Inline Action in Smart Contracts
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -438,28 +404,8 @@
   
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#comments-true" class="md-nav__link">
-    comments: true
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#use-of-inline-action-in-smart-contracts" class="md-nav__link">
-    Use of Inline Action in Smart Contracts
-  </a>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -477,9 +423,6 @@
   
 
 
-<p>Here's the translated text:</p>
-<hr />
-<h2 id="comments-true">comments: true</h2>
 <h1 id="use-of-inline-action-in-smart-contracts">Use of Inline Action in Smart Contracts</h1>
 <p>An action can also be initiated in a smart contract, such an action is called an inline action. It should be noted that actions are asynchronous, that is, the contract code corresponding to the inline action will only be called after the entire code has been executed. If the called contract does not define the relevant action or there is no deployed contract in the account, the call will have no effect, but no exceptions will be thrown. Empty inline actions like these are not without any effect, for example, they can be used as logs on the chain for applications to query.</p>
 <p>The following is the main code of the Action structure in <code>action.go</code>:</p>
@@ -639,6 +582,54 @@ INFO     test:test.py:84 +++++++old_balance: 4999999.0, new_balance: 4999998.0
 
 
 
+
+  <h2 id="__comments">Comments</h2>
+  <!-- Insert generated snippet here -->
+  <script src="https://giscus.app/client.js"
+  data-repo="learnforpractice/gscdk-book"
+  data-repo-id="R_kgDOJkIM6g"
+  data-category="Q&A"
+  data-category-id="DIC_kwDOJkIM6s4CWsne"
+  data-mapping="title"
+  data-strict="0"
+  data-reactions-enabled="1"
+  data-emit-metadata="0"
+  data-input-position="bottom"
+  data-theme="preferred_color_scheme"
+  data-lang="en"
+  crossorigin="anonymous"
+  async>
+  </script>
+
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    /* Set palette on initial load */
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate" ? "dark" : "light"
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    /* Register event handlers after documented loaded */
+    // document.addEventListener("DOMContentLoaded", function() {
+    //   var ref = document.querySelector("[data-md-component=palette]")
+    //   ref.addEventListener("change", function() {
+    //     var palette = __md_get("__palette")
+    //     if (palette && typeof palette.color === "object") {
+    //       var theme = palette.color.scheme === "slate" ? "dark" : "light"
+
+    //       /* Instruct Giscus to change theme */
+    //       var frame = document.querySelector(".giscus-frame")
+    //       frame.contentWindow.postMessage(
+    //         { giscus: { setConfig: { theme } } },
+    //         "https://giscus.app"
+    //       )
+    //     }
+    //   })
+    // })
+  </script>
 
                 
               </article>
