@@ -114,8 +114,8 @@ def test_notify(tester):
 
 编译：
 ```bash
-python-contract build notify/receiver.codon
-python-contract build notify/sender.codon
+cd examples/notify
+./build.sh
 ```
 
 测试：
@@ -137,5 +137,4 @@ hello world from alice!
 
 [(hello,sayhello)->alice]: CONSOLE OUTPUT END   =====================
 INFO     test:test.py:58 ++++++elapsed: 409
-debug 2023-05-24T03:26:47.225 thread-0  controller.cpp:2499           clear_expired_input_ ] removed 0 expired transactions of the 50 input dedup list, pending block time 2018-06-01T12:00:03.500
 ```

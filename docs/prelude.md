@@ -8,9 +8,9 @@ comments: true
 
 A smart contract is code that can be executed on the blockchain.
 
-## What is a Python Smart Contract
+## What is a Go Smart Contract
 
-A Python smart contract is code written in Python that can be executed on the blockchain. In the case of the EOS network, Python smart contract code is compiled into a WebAssembly binary file, which can be published to the blockchain and executed, achieving a certain operation effect.
+A Go smart contract is code written in the Go language that can be executed on a blockchain. Taking the EOS network as an example, the code for a Go smart contract is compiled into a binary file called WebAssembly, which can be deployed and executed on the blockchain, allowing it to manipulate data on the chain.
 
 ## What is EOS
 

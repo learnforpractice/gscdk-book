@@ -23,7 +23,7 @@ name bytes string bool uint64 checksum256
 public_key signature symbol asset extended_asset
 ```
                                                                                                     
-## ABI中的内置数据类型和Python中的数据类型的对应关系表
+## ABI中的内置数据类型和Go中的数据类型的对应关系表
 
 关系表：
 

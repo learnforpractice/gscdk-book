@@ -1,89 +1,117 @@
----
-comments: true
----
+# RequireRecipient Function
 
-# The `require_recipient` function
+The function is declared in `action.go` as follows:
 
-The function is declared in `action.codon` as follows:
-
-```python
-def require_recipient(account: Name):
+```go
+func RequireRecipient(name Name)
 ```
 
-The `require_recipient` function is utilized to notify other contracts. If the `account` contract has the same action, this action will be called.
+The `RequireRecipient` function is used to notify other contracts. If an account contract has the same action, then this action will be called.
 
-The following code in `sender.codon` and `receiver.codon` demonstrates how to send a notification from one contract to another.
+The following `sender` and `receiver` code demonstrates how to send a notification from one contract to another contract.
 
-```python
-# sender.codon
-from chain.name import Name
-from chain.contract import Contract
-from chain.action import require_recipient
+[Complete code link](https://github.com/learnforpractice/gscdk-book/tree/master/examples/notify)
 
-@contract(main=True)
-class MyContract(Contract):
+```go
+// sender
+package main
 
-    @action('sayhello')
-    def sayhello(self, receiver: Name):
-        print('hello, world')
-        require_recipient(receiver)
+import (
+	"github.com/uuosio/chain"
+)
+
+// contract sender
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
+
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
+
+// action sayhello
+func (c *Contract) SayHello() {
+	chain.Println("Hello, World!")
+	chain.RequireRecipient(chain.NewName("alice"))
+}
 ```
 
-```python
-# receiver.codon
-from chain.name import Name
-from chain.contract import Contract
+```go
+// receiver
+package main
 
-@contract(main=True)
-class MyContract(Contract):
+import (
+	"github.com/uuosio/chain"
+)
 
-    @action('sayhello', notify=True)
-    def sayhello(self, receiver: Name):
-        assert not self.receiver == self.first_receiver
-        assert receiver == self.receiver
-        print('hello, world from notify')
+// contract receiver
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
+
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
+
+// notify sayhello
+func (c *Contract) SayHello() {
+	chain.Println("hello world from alice!")
+}
 ```
 
-Note that the definition of the `sayhello` function in `receiver.codon` is slightly different from that in `sender.codon`. The `notify=True` in the `action` decorator of the `sayhello` function in `receiver.codon` is used to specify that this action is used to receive notifications and can only be triggered by calling `require_recipient`.
+Let's explain the code:
+
+The sender calls the following code to initiate the notification:
+
+```go
+chain.RequireRecipient(chain.NewName("alice"))
+```
+
+The `SayHello` function in `receiver` is different from the `SayHello` function in `sender`, the comment added to `SayHello` in `receiver` is `notify sayhello`, indicating that this action is used to receive notifications and can only be triggered by calling `RequireRecipient`.
 
 The following is the test code:
 
 ```python
-def init_notify():
-    t = ChainTester(True)
-    update_auth(t, 'hello')
-
-    wasm_file = os.path.join(dir_name, 'notify/sender.wasm')
-    with open(wasm_file, 'rb') as f:
+test_dir = os.path.dirname(__file__)
+def deploy_contract(tester):
+    with open(f'{test_dir}/sender/sender.wasm', 'rb') as f:
         code = f.read()
-    abi_file = os.path.join(dir_name, 'notify/sender.abi')
-    with open(abi_file, 'r') as f:
+    with open(f'{test_dir}/sender/sender.abi', 'rb') as f:
         abi = f.read()
-    t.deploy_contract('hello', code, abi)
-    t.produce_block()
+    tester.deploy_contract('hello', code, abi)
 
-    wasm_file = os.path.join(dir_name, 'notify/receiver.wasm')
-    with open(wasm_file, 'rb') as f:
+    with open(f'{test_dir}/receiver/receiver.wasm', 'rb') as f:
         code = f.read()
-    abi_file = os.path.join(dir_name, 'notify/receiver.abi')
-    with open(abi_file, 'r') as f:
+    with open(f'{test_dir}/receiver/receiver.abi', 'rb') as f:
         abi = f.read()
-    t.deploy_contract('alice', code, abi)
-    t.produce_block()
-    return t
+    tester.deploy_contract('alice', code, abi)
 
-def test_notify():
-    t = init_notify()
-    args = {'receiver': 'alice'}
-    ret = t.push_action('hello', 'sayhello', args, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_notify(tester):
+    deploy_contract(tester)
+
+    r = tester.push_action('hello', 'sayhello', {}, {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 Compile:
+
 ```bash
-python-contract build notify/receiver.codon
-python-contract build notify/sender.codon
+cd examples/notify
+./build.sh
 ```
 
 Test:
@@ -96,12 +124,15 @@ Output:
 
 ```
 [(hello,sayhello)->hello]: CONSOLE OUTPUT BEGIN =====================
-hello, world
+Hello, World!
 
 [(hello,sayhello)->hello]: CONSOLE OUTPUT END   =====================
-debug 2023-03-28T13:08:01.110 thread-0  apply_context.cpp:30          print_debug          ] 
+debug 2023-05-24T03:26:47.224 thread-0  apply_context.cpp:40          print_debug          ] 
 [(hello,sayhello)->alice]: CONSOLE OUTPUT BEGIN =====================
-hello, world from notify
+hello world from alice!
 
 [(hello,sayhello)->alice]: CONSOLE OUTPUT END   =====================
+INFO     test:test.py:58 ++++++elapsed: 409
 ```
+
+You can see that the output includes both the message from the sender ("Hello, World!") and the receiver ("hello world from alice!"). This is because the `RequireRecipient` function in the sender contract triggered the `SayHello` function in the receiver contract.

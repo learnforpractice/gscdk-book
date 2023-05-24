@@ -4,113 +4,59 @@ comments: true
 
 # Common Smart Contract Functions
 
-## is_account
+## IsAccount
 
 Declaration:
 
-```python
-def is_account(account: Name ) -> bool:
-    ...
+```go
+func IsAccount(name Name) bool
 ```
 
-Explanation:
+Description:
 
-Used to determine if an account exists.
+Used to determine whether an account exists or not.
 
-## has_auth
+## HasAuth
 
 Declaration:
 
-```python
-def has_auth(account: Name) -> bool:
-    ...
+```go
+func HasAuth(name Name) bool
 ```
 
-Explanation:
+Description:
 
-Used to determine if the 'active' permission of the specified account is present, i.e. whether the Transaction is signed with the private key corresponding to the 'active' permission of the specified account. There is at least one corresponding private key, and possibly multiple.
+Used to determine whether there is `active` authority for a specified account, that is, whether the Transaction has been signed with the private key corresponding to the `active` authority of the specified account. There must be at least one corresponding private key, possibly more.
 
-## require_auth/require_auth2
+## RequireAuth/RequireAuth2
 
 Declaration:
 
-```python
-def require_auth(account: Name):
-    ...
-
-def require_auth2(account: Name, permission: Name):
-    ...
+```go
+func RequireAuth(name Name)
+func RequireAuth2(name Name, permission Name)
 ```
 
-Explanation:
+Description:
 
-Both of these functions throw an exception when the account does not exist or the specified account's permission is not detected. The difference is that `require_auth` checks for the existence of the 'active' permission, while `require_auth2` can check for a specified permission.
+These two functions will throw exceptions if the account does not exist or if the specified account's permission is not detected. The difference is that `RequireAuth` checks for the existence of `active` permission, while `RequireAuth2` can check for specified permissions.
 
-## publication_time/current_time
+## CurrentTime
 
-## check
+```go
+func CurrentTime() TimePoint
+```
+
+Used to get the time of the block where the Transaction is located.
+
+## Check
 
 Declaration:
 
-```python
-def check(test: bool, msg: str) -> None:
+```go
+func Check(test bool, msg string)
 ```
 
-Explanation:
+Description:
 
-If test is False, an exception will be thrown. This function is frequently used in smart contracts, and can be referenced in the code of `token.codon`.
-
-## Example Code:
-
-```python
-from chain.action import has_auth, require_auth, require_auth2, is_account
-from chain.contract import Contract
-
-@contract(main=True)
-class MyContract(Contract):
-
-    def __init__(self):
-        super().__init__()
-
-    @action('test')
-    def test(self):
-        has_auth(n"hello")
-
-        require_auth(n"hello")
-        require_auth2(n"hello", n"active")
-
-        print(is_account(n"hello"))
-        print(is_account(n"hello"))
-        return
-```
-
-Compilation:
-
-```bash
-python-contract build common_example.codon
-```
-
-Test code:
-
-```python
-def test_common():
-    t = init_test('common_example')
-    ret = t.push_action('hello', 'test', {}, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
-```
-
-Test:
-
-```bash
-ipyeos -m pytest -s -x test.py -k test_common
-```
-
-Output:
-```
-[(hello,test)->hello]: CONSOLE OUTPUT BEGIN =====================
-True
-True
-
-[(hello,test)->hello]: CONSOLE OUTPUT END   =====================
-```
+If test is false, it will throw an exception containing the `msg` message.

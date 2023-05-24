@@ -179,3 +179,5 @@ def update_auth(chain, account):
     }
     chain.push_action('eosio', 'updateauth', a, {account:'active'})
 ```
+
+[完整代码链接](https://github.com/learnforpractice/gscdk-book/tree/master/examples/action_example)

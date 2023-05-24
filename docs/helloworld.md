@@ -4,75 +4,110 @@ comments: true
 
 # HelloWorld
 
-## The First Smart Contract
+## First Smart Contract
 
-The following code shows the simplest smart contract and its testing code:
+The following shows a simplest smart contract code and test code:
 
-```python
-# helloworld.codon
+```go
+package main
 
-from chain.contract import Contract
+import (
+	"github.com/uuosio/chain"
+)
 
-@contract(main=True)
-class MyContract(Contract):
+// contract helloworld
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
 
-    def __init__(self):
-        super().__init__()
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
 
-    @action('sayhello')
-    def say_hello(self):
-        print("Hello, World!")
+// action sayhello
+func (c *Contract) SayHello() {
+	chain.Println("Hello, World!")
+}
 ```
 
-Testing code:
+Test code:
 
 ```python
-# helloworldtest.py
+# test.py
 
 import os
-from ipyeos import chaintester
-from ipyeos.chaintester import ChainTester
-from ipyeos import log
+import sys
+import json
+import struct
+import pytest
 
+test_dir = os.path.dirname(__file__)
+sys.path.append(os.path.join(test_dir, '..'))
+
+from ipyeos import log
+from ipyeos import chaintester
 chaintester.chain_config['contracts_console'] = True
 
 logger = log.get_logger(__name__)
 
-dir_name = os.path.dirname(os.path.abspath(__file__))
+def init_tester():
+    chain = chaintester.ChainTester()
+    return chain
 
-def init_test(contract_name):
-    t = ChainTester(True)
-    wasm_file = os.path.join(dir_name, f'{contract_name}.wasm')
-    with open(wasm_file, 'rb') as f:
+def chain_test(fn):
+    def call():
+        chain = init_tester()
+        ret = fn(chain)
+        chain.free()
+        return ret
+    return call
+
+class NewChainTester():
+    def __init__(self):
+        self.tester = None
+
+    def __enter__(self):
+        self.tester = init_tester()
+        return self.tester
+
+    def __exit__(self, type, value, traceback):
+        self.tester.free()
+
+test_dir = os.path.dirname(__file__)
+def deploy_contract(tester, package_name):
+    with open(f'{test_dir}/{package_name}.wasm', 'rb') as f:
         code = f.read()
-
-    abi_file = os.path.join(dir_name, f'{contract_name}.abi')
-    with open(abi_file, 'r') as f:
+    with open(f'{test_dir}/{package_name}.abi', 'rb') as f:
         abi = f.read()
+    tester.deploy_contract('hello', code, abi)
 
-    t.deploy_contract('hello', code, abi)
-    t.produce_block()
-    return t
+@chain_test
+def test_action(tester):
+    deploy_contract(tester, 'helloworld')
 
-def test():
-    t = init_test('helloworld')
-    ret = t.push_action('hello', 'sayhello', "", {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+    r = tester.push_action('hello', 'sayhello', {}, {'hello': 'active'})
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 
 Compile:
 
-```
-python-contract build helloworld.codon
+```bash
+cd examples/helloworld
+go-contract build .
 ```
 
 
-To run the test code:
-
-```
-ipyeos -m pytest -s -x testhelloworld.py -k test
+Run the test code:
+```bash
+ipyeos -m pytest -s -x test.py -k test_helloworld
 ```
 
 Output:
@@ -81,36 +116,51 @@ Output:
 Hello, World!
 ```
 
-## Create an Initial Project
+[Complete code](https://github.com/learnforpractice/gscdk-book/tree/master/examples/helloworld)
 
-You can create an initial project using the `python-contract init` command. For example, the following code creates an initial project named `mycontract`:
+## Creating an Initial Project
 
+You can use the `go-contract init` command to create an initial project. For example, the following code creates an initial project named `mycontract`:
+
+```bash
+go-contract init mycontract
 ```
-python-contract init mycontract
-```
 
-After creating the project, you can compile the contract using the following command:
+After creation, you can use the following command to compile the contract:
 
 ```
 cd mycontract
 ./build.sh
 ```
 
-After a successful execution, `mycontract.wasm` and `mycontract.abi` files will be generated.
+After successful execution, two files `mycontract.wasm` and `mycontract.abi` will be generated.
 
-You can run the following command for testing:
+You can run the following command to test:
 
 ```
 ./test.sh
 ```
 
-The following information will be output:
+The following text information will be output in green:
 
+(hello,inc)->hello]: CONSOLE OUTPUT BEGIN =====================
+count:  1
+
+[(hello,inc)->hello]: CONSOLE OUTPUT END   =====================
+INFO     test:test.py:76 ++++++elapsed: 374
+debug 2023-05-24T01:51:49.482 thread-0  apply_context.cpp:40          print_debug          ] 
+[(hello,inc)->hello]: CONSOLE OUTPUT BEGIN =====================
+count:  2
+
+[(hello,inc)->hello]: CONSOLE OUTPUT END   =====================
 ```
-[(hello,sayhello)->hello]: CONSOLE OUTPUT BEGIN =====================
-hello  alice
 
-[(hello,sayhello)->hello]: CONSOLE OUTPUT END   =====================
+It's worth noting that the above output is the debug formation. If running on the main network, the content output by the `chain.Println` function cannot be seen. If running on a test network, you need to add the `--contracts-console` parameter when running the nodeos command to see the debug output in the return.
+
+In the above test code, the debug information is output directly through the following line of code:
+
+```python
+chaintester.chain_config['contracts_console'] = True
 ```
 
-After confirming that the test was successful, you can proceed with smart contract development based on this existing project.
+Furthermore, in the production version of the code, to improve the performance of the program, you should not include the debug output code.
