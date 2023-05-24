@@ -1,5 +1,5 @@
 site_name: Go Smart Contracts Development Cook Book
-repo_url: https://github.com/learnforpractice/pscdk-book
+repo_url: https://github.com/learnforpractice/gscdk-book
 plugins:
     - i18n:
         default_language: en
