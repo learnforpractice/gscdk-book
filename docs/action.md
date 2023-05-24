@@ -1,5 +1,3 @@
-Here's the translated text:
-
 ---
 comments: true
 ---

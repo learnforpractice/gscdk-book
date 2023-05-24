@@ -1,5 +1,3 @@
-Here is the translated version of your markdown text:
-
 ---
 comments: true
 ---
