@@ -478,7 +478,7 @@ func (c *MyContract) TestUpdate() {
 idxb := mytable.GetIdxTableByb()
 secondaryIt := idxb.Find(2)
 chain.Check(secondaryIt.IsOk(), "secondary index 2 not found")
-mytable.IdxUpdate(secondaryIt, uint64(3), payer)
+mytable.Updateb(secondaryIt, 3, payer)
 
 secondaryIt = idxb.Find(3)
 chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1, "secondary index 3 not found")
@@ -489,12 +489,12 @@ chain.Println("+++++++test update done!")
 
 - `idxb := mytable.GetIdxTableByb()` 获取`b`的二重索引，`GetIdxTableByb`是一个自动生成的函数，代码可以在`generated.go`中找到
 - `secondaryIt := idxb.Find(2)`查找二重索引的类型为`uint64`的值`2`，返回的值`secondaryIt`为`SecondaryIterator`类型
-- **`mytable.IdxUpdate(secondaryIt, uint64(3), payer)`** 这行代码即是实现了更新的功能，更新`b`的值为`3`，这里的`3`必须显式的转换成uint64类型，否则因为默认3是一个`int64`类型，会因类型不正确而抛出异常
+- **`mytable.Updateb(secondaryIt, uint64(3), payer)`** 这行代码即是实现了更新的功能，更新`b`的值为`3`，`Updateb`为自动生成的函数，定义在`generated.go`中
 - `secondaryIt = idxb.Find(3)`查找新的二重索引
 - `chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1, "secondary index 3 not found")` 用于确认二重索引是否更新成功，注意，这里还会判断主索引是否为`1`
                                                                                                     
-
 ## 二重索引的查询
+
 二重索引同样支持通过`Find`, `Lowerbound`, `Upperbound`的方式来查询表，以下是示例，在这个示例中，显示了如何查询`b`, `c`这两个二重索引中的值
 
 ```go

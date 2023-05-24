@@ -41,7 +41,7 @@ func (c *MyContract) TestUpdate() {
 	idxb := mytable.GetIdxTableByb()
 	secondaryIt := idxb.Find(2)
 	chain.Check(secondaryIt.IsOk(), "secondary index 2 not found")
-	mytable.IdxUpdate(secondaryIt, uint64(3), payer)
+	mytable.Updateb(secondaryIt, 3, payer)
 
 	secondaryIt = idxb.Find(3)
 	chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1, "secondary index 3 not found")

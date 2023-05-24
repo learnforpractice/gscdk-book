@@ -2,7 +2,7 @@ site_name: Python Smart Contracts Development Cook Book
 repo_url: https://github.com/learnforpractice/pscdk-book
 plugins:
     - i18n:
-        default_language: zh
+        default_language: en
         languages:
             en:
                 name: English
