@@ -81,6 +81,12 @@ func (c *MyContract) TestBound() {
 
 	{
 		idxb := mytable.GetIdxTableByb()
+		secondaryIt := idxb.Find(2)
+		chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1, "key 2 not found")
+	}
+
+	{
+		idxb := mytable.GetIdxTableByb()
 		secondaryIt, secondaryValue := idxb.Lowerbound(2)
 		chain.Check(secondaryIt.IsOk() && secondaryIt.Primary == 1 && secondaryValue == 2, "bad Lowerbound value")
 

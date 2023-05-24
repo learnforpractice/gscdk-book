@@ -4,202 +4,141 @@ comments: true
 
 # 密码学相关函数
 
-密码学相关的函数在`crypto.codon`中定义，可以通过像下面的方式导入：
+密码学相关的函数在`chain`模块的[crypto.go](https://github.com/uuosio/chain/blob/master/crypto.go)中定义.
 
-```python
-from chain.crypto import sha256
+定义了如下的hash相关的函数：
+
+```
+Sha256
+Sha512
+Ripemd160
+Sha1
 ```
 
-或者只导入crypto模块：
+类似的函数声明如下：
 
-```python
-from chain import crypto
+```go
+func Sha256(data []byte) Checksum256
 ```
 
-然后通过像`crypto.sha256`的方式来调用内部函数。
+以及相关的验证函数：
 
-## sha256
-
-sha256算法hash函数
-
-```python
-def sha256(data: bytes) -> Checksum256:
+```go
+func AssertSha256(data []byte, hash Checksum256)
 ```
 
-用于检测hash256值是否正常，不正确会直接抛出异常
-
-```python
-def assert_sha256(data: bytes, hash: Checksum256):
+另外，还提供了下面这两个函数，
+```go
+func RecoverKey(digest Checksum256, sig *Signature) *PublicKey
+func AssertRecoverKey(digest Checksum256, sig Signature, pub PublicKey)
 ```
 
-## sha1
+用于从digest和signture中恢复出公钥，可以用于在合约中进行签名的效验
 
-sha1算法hash函数
-
-```python
-def sha1(data: bytes) -> Checksum160:
-```
-
-用于检测sha1 hash值是否正常，不正确会直接抛出异常
-
-```python
-def assert_sha1(data: bytes, hash: Checksum160):
-```
-
-
-## sha512
-
-sha512算法hash函数
-
-```python
-def sha512(data: bytes) -> Checksum512:
-```
-
-用于检测hash512值是否正常，不正确会直接抛出异常
-
-```python
-def assert_sha512(data: bytes, hash: Checksum512):
-```
-
-## ripemd160
-
-ripemd160算法hash函数
-
-```python
-def ripemd160(data: bytes) -> Checksum160:
-```
-
-用于检测ripemd160算法的hash值是否正常，不正确会直接抛出异常
-
-```python
-def assert_ripemd160(data: bytes, hash: Checksum160):
-```
-
-## recover_key
-
-用于从digest和signture中恢复出公钥
-
-```python
-def recover_key(digest: Checksum256, sig: Signature) -> PublicKey:
-```
-
-检查签名是否正常，不正常会抛出异常
-
-```python
-def assert_recover_key(digest: Checksum256, sig: Signature, pub: PublicKey):
-```
 
 ## 示例：
 
-```python
-# crypto_example.codon
-from chain.contract import Contract
-from chain.crypto import sha256, assert_sha256, sha512, assert_sha512, sha1, assert_sha1, ripemd160, assert_ripemd160
-from chain.crypto import recover_key, assert_recover_key
-from chain.crypto import Signature, Checksum256, PublicKey
+```go
+package main
 
-@contract(main=True)
-class MyContract(Contract):
+import (
+	"github.com/uuosio/chain"
+)
 
-    def __init__(self):
-        super().__init__()
+// contract crypto_example
+type Contract struct {
+	receiver      chain.Name
+	firstReceiver chain.Name
+	action        chain.Name
+}
 
-    @action('testcrypto')
-    def test_crypto(self):
-        assert_sha256(b"hello", sha256(b"hello"))
-        assert_sha1(b"hello", sha1(b"hello"))
-        assert_sha512(b"hello", sha512(b"hello"))
-        assert_ripemd160(b"hello", ripemd160(b"hello"))
+func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
+	return &Contract{
+		receiver,
+		firstReceiver,
+		action,
+	}
+}
 
-    @action('testrecover')
-    def test_recover(self, msg: bytes, digest: Checksum256, sig: Signature, k1: PublicKey):
-        _digest = sha256(msg)
-        assert _digest == digest
-        _pubkey = recover_key(digest, sig)
-        assert _pubkey == k1, "_pubkey == k1"
-        assert_recover_key(digest, sig, k1)
-        print('done!')
+// action test
+func (c *Contract) Test() {
+	message := []byte("hello, world")
+	{
+		h := chain.Sha256(message)
+		chain.AssertSha256(message, h)
+	}
+
+	{
+		h := chain.Sha512(message)
+		chain.AssertSha512(message, h)
+	}
+
+	{
+		h := chain.Ripemd160(message)
+		chain.AssertRipemd160(message, h)
+	}
+
+	{
+		h := chain.Sha1(message)
+		chain.AssertSha1(message, h)
+	}
+
+	chain.Println("Test Done!")
+}
+
+// action testrecover
+func (c *Contract) TestRecover(data []byte, sig *chain.Signature, pub *chain.PublicKey) {
+	hash := chain.Sha256([]byte("hello,world"))
+	pub2 := chain.RecoverKey(hash, sig)
+	chain.Check(*pub == *pub2, "bad recovery")
+	chain.Println("TestRecover Done!")
+}
 ```
 
 测试代码：
 
 ```python
-def test_crypto():
-    t = init_test('crypto_example')
-    args = {}
-    ret = t.push_action('hello', 'testcrypto', args, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+@chain_test
+def test_crypto(tester):
+    deploy_contract(tester, 'crypto_example')
 
-def test_recover():
-    t = init_test('crypto_example')
+    r = tester.push_action('hello', 'test', {})
+    tester.produce_block()
 
-    msg = b'hello,world'
-    # key pair
-    public_key = 'EOS6MRyAjQq8ud7hVNYcfnVPJqcVpscN5So8BhtHuGYqET5GDW5CV'
-    private_key = '5KQwrPbwdL6PhXujxW37FSSQZ1JiwsST4cqQzDeyXtP79zkvFD3'
-
-    h = hashlib.sha256()
-    h.update(msg)
-    digest = h.hexdigest()
-    logger.info('++++digest: %s', digest)
-
-    #sign with private key
-    sig = eosapi.sign_digest(digest, private_key)
-    logger.info('++++signature: %s', sig)
+    sig = 'SIG_K1_KiXXExwMGG5NvAngS3X58fXVVcnmPc7fxgwLQAbbkSDj9gwcxWHxHwgpUegSCfgp4nFMMgjLDAKSQWZ2NLEmcJJn1m2UUg'
+    pub = 'EOS7wy4M8ZTYqtoghhDRtE37yRoSNGc6zC2zFgdVmaQnKV5ZXe4kV'
+    data = b'hello,world'
     args = {
-        "msg": msg.hex(),
-        "digest": digest,
-        "sig": sig,
-        "k1": public_key,
+        'data': data.hex(),
+        'sig': sig,
+        'pub': pub,
     }
-    ret = t.push_action('hello', 'testrecover', args, {'hello': 'active'})
-    t.produce_block()
-    logger.info("++++++++++%s\n", ret['elapsed'])
+    r = tester.push_action('hello', 'testrecover', args)
+    logger.info('++++++elapsed: %s', r['elapsed'])
+    tester.produce_block()
 ```
 
 编译：
 
 ```
-python-contract build crypto_example.codon
+cd examples/crypto_example
+go-contract build .
 ```
 
 测试：
 
-```
+```bash
 ipyeos -m pytest -s -x test.py -k test_crypto
-ipyeos -m pytest -s -x test.py -k test_recover
 ```
 
-在这个示例代码中，分别演示了常用的hash函数的用法以及`recover_key`和`assert_recover_key`的用法。hash函数的用法比较简单，这里解释一下recover_key的测试代码：
-recover_key接受二个参数，分别是`digest`和`signature`，digest是对一个二进制数据进行sha256运行的结果。在上面的代码中是通过对`hello,world`进行sha256算法的hash计算。
+在这个示例代码中，分别演示了常用的hash函数的用法以及`RecoverKey`的用法。hash函数的用法比较简单，这里解释一下RecoverKey的测试代码：
+RecoverKey接受二个参数，分别是`digest`和`signature`，digest是对一个二进制数据进行sha256运行的结果。在上面的代码中是通过对`hello,world`进行sha256算法的hash计算。
 
-```python
-h = hashlib.sha256()
-h.update(b'hello,world')
-digest = h.hexdigest()
-```
-
-运算出的结果作为参数传给action.
-
-下面是对`testrecover`的解释：
-
-```python
-@action('testrecover')
-def test_recover(self, msg: bytes, digest: Checksum256, sig: Signature, k1: PublicKey):
-    _digest = sha256(msg)
-    assert _digest == digest #判断digest是否对msg进行hash256算法的hash结果
-    _pubkey = recover_key(digest, sig)
-    assert _pubkey == k1, "_pubkey == k1" #判断public key是否正确
-
-    assert_recover_key(digest, sig, k1) #作用相当于上面两行代码
-    print('done!')
-```
-
-在发送的Transaction中也是需要包含用户对Transaction的签名的，以表示用户授权了这个Transaction。然后在智能合约，就可以调用的`require_auth`函数来判断Transaction是否进行过特定用户的授权。
 
 在实际的智能合约的应用中，如果要在智能合约里判断某段二进制数据是否是用特定的私钥进行的签名也可以用上面的办法。过程如下：
 
-- 首先用户用自己的私钥对数据进行签名
-- 用户将数据，签名，公钥（注意这里不是私钥）传给智能合约
-- 智能合约即可判断数据是否是用特别的私钥签的名，并进行相应的操作。
+- 合约中保存用户一个私钥对应的公钥
+- 用户用自己的私钥对数据进行签名
+- 用户将数据，以及对应的签名传给智能合约
+- 智能合约可以调用`RecoverKey`从用户数据，以及对数据的签名中还原出公钥
+- 智能合约读取保存在链上的用户公钥，与通过调用`RecoverKey`还原出的公钥进行比较，相同即可以确定数据是对应的用户签的名
