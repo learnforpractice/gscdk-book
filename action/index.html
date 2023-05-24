@@ -1,0 +1,682 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../ui/">
+      
+      
+        <link rel="next" href="../notify/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.4">
+    
+    
+      
+        <title>Action - Go Smart Contracts Development Cook Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.240905d7.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#comments-true" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Go Smart Contracts Development Cook Book" class="md-header__button md-logo" aria-label="Go Smart Contracts Development Cook Book" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Go Smart Contracts Development Cook Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Action
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <div class="md-header__option">
+        <div class="md-select">
+          
+          <button class="md-header__button md-icon" aria-label="Select language">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
+          </button>
+          <div class="md-select__inner">
+            <ul class="md-select__list">
+              
+                <li class="md-select__item">
+                  <a href="./" hreflang="en" class="md-select__link">
+                    English
+                  </a>
+                </li>
+              
+                <li class="md-select__item">
+                  <a href="../zh/action/" hreflang="zh" class="md-select__link">
+                    中文
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/learnforpractice/pscdk-book" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Go Smart Contracts Development Cook Book" class="md-nav__button md-logo" aria-label="Go Smart Contracts Development Cook Book" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Go Smart Contracts Development Cook Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/learnforpractice/pscdk-book" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prelude/" class="md-nav__link">
+        Prerequisite Knowledge
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env/" class="md-nav__link">
+        Env
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        HelloWorld
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        Deploying a Smart Contract
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ui/" class="md-nav__link">
+        Interact with Digital Wallets
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Action
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Action
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comments-true" class="md-nav__link">
+    comments: true
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-of-inline-action-in-smart-contracts" class="md-nav__link">
+    Use of Inline Action in Smart Contracts
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notify/" class="md-nav__link">
+        RequireRecipient Function
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        Database Operations
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto/" class="md-nav__link">
+        Cryptography Related Functions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common/" class="md-nav__link">
+        Common Smart Contract Functions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abi/" class="md-nav__link">
+        Detailed Explanation of ABI Types
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../callc/" class="md-nav__link">
+        Calling C/C++ Code in Go
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#comments-true" class="md-nav__link">
+    comments: true
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-of-inline-action-in-smart-contracts" class="md-nav__link">
+    Use of Inline Action in Smart Contracts
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<p>Here's the translated text:</p>
+<hr />
+<h2 id="comments-true">comments: true</h2>
+<h1 id="use-of-inline-action-in-smart-contracts">Use of Inline Action in Smart Contracts</h1>
+<p>An action can also be initiated in a smart contract, such an action is called an inline action. It should be noted that actions are asynchronous, that is, the contract code corresponding to the inline action will only be called after the entire code has been executed. If the called contract does not define the relevant action or there is no deployed contract in the account, the call will have no effect, but no exceptions will be thrown. Empty inline actions like these are not without any effect, for example, they can be used as logs on the chain for applications to query.</p>
+<p>The following is the main code of the Action structure in <code>action.go</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">Action</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Account</span><span class="w">       </span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w">          </span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">Authorization</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">PermissionLevel</span>
+<span class="w">    </span><span class="nx">Data</span><span class="w">          </span><span class="p">[]</span><span class="kt">byte</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewAction</span><span class="p">(</span><span class="nx">perm</span><span class="w"> </span><span class="o">*</span><span class="nx">PermissionLevel</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="o">*</span><span class="nx">Action</span><span class="w"> </span><span class="p">{</span>
+<span class="o">...</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewActionEx</span><span class="p">(</span><span class="nx">perms</span><span class="w"> </span><span class="p">[]</span><span class="o">*</span><span class="nx">PermissionLevel</span><span class="p">,</span><span class="w"> </span><span class="nx">account</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="nx">Name</span><span class="p">,</span><span class="w"> </span><span class="nx">args</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="o">*</span><span class="nx">Action</span><span class="w"> </span><span class="p">{</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">*</span><span class="nx">Action</span><span class="p">)</span><span class="w"> </span><span class="nx">Send</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">EncoderPack</span><span class="p">(</span><span class="nx">a</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">SendInline</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// example/action_example</span>
+
+<span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/uuosio/chain&quot;</span>
+<span class="p">)</span>
+
+<span class="c1">// contract action_example</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Contract</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">receiver</span><span class="w">      </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">firstReceiver</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">action</span><span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewContract</span><span class="p">(</span><span class="nx">receiver</span><span class="p">,</span><span class="w"> </span><span class="nx">firstReceiver</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">Contract</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">Contract</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">receiver</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">firstReceiver</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">action</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// action testaction1</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Contract</span><span class="p">)</span><span class="w"> </span><span class="nx">SayHello3</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewAction</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="nx">chain</span><span class="p">.</span><span class="nx">PermissionLevel</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">Actor</span><span class="p">:</span><span class="w">      </span><span class="nx">c</span><span class="p">.</span><span class="nx">receiver</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Permission</span><span class="p">:</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">ActiveName</span><span class="p">,</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;eosio.token&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;transfer&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">c</span><span class="p">.</span><span class="nx">receiver</span><span class="p">,</span><span class="w">                                       </span><span class="c1">//from</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;eosio&quot;</span><span class="p">),</span><span class="w">                           </span><span class="c1">//to</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewAsset</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewSymbol</span><span class="p">(</span><span class="s">&quot;EOS&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)),</span><span class="w"> </span><span class="c1">//quantity 1.0000 EOS</span>
+<span class="w">        </span><span class="s">&quot;hello,world&quot;</span><span class="p">,</span><span class="w">                                    </span><span class="c1">//memo</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Send</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="c1">// packer</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">Transfer</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">from</span><span class="w">     </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">to</span><span class="w">       </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">quantity</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Asset</span>
+<span class="w">    </span><span class="nx">memo</span><span class="w">     </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">// action testaction2</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Contract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestAction2</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">transfer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">Transfer</span><span class="p">{</span>
+<span class="w">        </span><span class="nx">from</span><span class="p">:</span><span class="w">     </span><span class="nx">c</span><span class="p">.</span><span class="nx">receiver</span><span class="p">,</span>
+<span class="w">        </span><span class="nx">to</span><span class="p">:</span><span class="w">       </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;eosio&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">quantity</span><span class="p">:</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Asset</span><span class="p">{</span><span class="nx">Amount</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span><span class="w"> </span><span class="nx">Symbol</span><span class="p">:</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewSymbol</span><span class="p">(</span><span class="s">&quot;EOS&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)},</span>
+<span class="w">        </span><span class="nx">memo</span><span class="p">:</span><span class="w">     </span><span class="s">&quot;hello, world&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewAction</span><span class="p">(</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="nx">chain</span><span class="p">.</span><span class="nx">PermissionLevel</span><span class="p">{</span>
+<span class="w">            </span><span class="nx">Actor</span><span class="p">:</span><span class="w">      </span><span class="nx">c</span><span class="p">.</span><span class="nx">receiver</span><span class="p">,</span>
+<span class="w">            </span><span class="nx">Permission</span><span class="p">:</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">ActiveName</span><span class="p">,</span>
+<span class="w">        </span><span class="p">},</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;eosio.token&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;transfer&quot;</span><span class="p">),</span>
+<span class="w">        </span><span class="o">&amp;</span><span class="nx">transfer</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="w">    </span><span class="nx">a</span><span class="p">.</span><span class="nx">Send</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Explanation:</p>
+<p>The parameters of NewAction are explained as follows:</p>
+<ul>
+<li><code>perm *PermissionLevel</code> Action permission, if you need multiple permissions, please use the NewActionEx function</li>
+<li><code>account Name</code> Target contract account name</li>
+<li><code>name Name</code> Action name</li>
+<li><code>args ...interface{}</code> Variable parameters, used to pass in the original parameters of the Action, all parameters will be <code>pack</code>ed into <code>[]byte</code> type</li>
+</ul>
+<p>This example actually demonstrates how to transfer EOS through an inline Action. Here, two ways of sending Actions are demonstrated. If you know the parameters of the Action, you can directly pass them into the <code>NewAction</code></p>
+<p>function. Another way is to encapsulate the parameters into a structure and use it as a parameter for NewAction.</p>
+<p>Test code:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_action</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;action_example&#39;</span><span class="p">)</span>
+
+    <span class="n">old_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testaction1&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+    <span class="n">new_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">-</span> <span class="mf">1.0000</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++old_balance: </span><span class="si">%s</span><span class="s2">, new_balance: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">old_balance</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">)</span>
+
+    <span class="n">old_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testaction2&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+    <span class="n">new_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++old_balance: </span><span class="si">%s</span><span class="s2">, new_balance: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">old_balance</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">-</span> <span class="mf">1.0000</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+</code></pre></div>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/action_example
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Running the test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos -m pytest -s -x test.py -k test_action
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>INFO     test:test.py:77 +++++++old_balance: 5000000.0, new_balance: 4999999.0
+INFO     test:test.py:84 +++++++old_balance: 4999999.0, new_balance: 4999998.0
+</code></pre></div>
+<p>Note that in order to be able to call an inline action in a contract, you need to add the virtual permission <code>eosio.code</code> to the account's <code>active</code> permission. In the test code, the following function is used to add the virtual permission <code>eosio.code</code> to the <code>active</code> permission. In actual use, if the <code>active</code> permission is inherited from multiple accounts or public keys, you must ensure that the weight of <code>eosio.code</code> is greater than or equal to the threshold of the permission.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_auth</span><span class="p">(</span><span class="n">chain</span><span class="p">,</span> <span class="n">account</span><span class="p">):</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;account&quot;</span><span class="p">:</span> <span class="n">account</span><span class="p">,</span>
+        <span class="s2">&quot;permission&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="s2">&quot;owner&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;auth&quot;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">&quot;threshold&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">&quot;keys&quot;</span><span class="p">:</span> <span class="p">[</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="s1">&#39;EOS6AjF6hvF7GSuSd4sCgfPKq5uWaXvGM2aQtEUCwmEHygQaqxBSV&#39;</span><span class="p">,</span>
+                    <span class="s2">&quot;weight&quot;</span><span class="p">:</span> <span class="mi">1</span>
+                <span class="p">}</span>
+            <span class="p">],</span>
+            <span class="s2">&quot;accounts&quot;</span><span class="p">:</span> <span class="p">[{</span><span class="s2">&quot;permission&quot;</span><span class="p">:{</span><span class="s2">&quot;actor&quot;</span><span class="p">:</span><span class="n">account</span><span class="p">,</span><span class="s2">&quot;permission&quot;</span><span class="p">:</span> <span class="s1">&#39;eosio.code&#39;</span><span class="p">},</span> <span class="s2">&quot;weight&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">}],</span>
+            <span class="s2">&quot;waits&quot;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="n">chain</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;eosio&#39;</span><span class="p">,</span> <span class="s1">&#39;updateauth&#39;</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="p">{</span><span class="n">account</span><span class="p">:</span><span class="s1">&#39;active&#39;</span><span class="p">})</span>
+</code></pre></div>
+<p><a href="https://github.com/learnforpractice/gscdk-book/tree/master/examples/action_example">Code Link</a></p>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.19047be9.min.js"></script>
+      
+    
+  </body>
+</html>

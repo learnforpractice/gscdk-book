@@ -1,0 +1,1098 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../notify/">
+      
+      
+        <link rel="next" href="../crypto/">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.4">
+    
+    
+      
+        <title>Database Operations - Go Smart Contracts Development Cook Book</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.240905d7.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#database-operations" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Go Smart Contracts Development Cook Book" class="md-header__button md-logo" aria-label="Go Smart Contracts Development Cook Book" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Go Smart Contracts Development Cook Book
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Database Operations
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <div class="md-header__option">
+        <div class="md-select">
+          
+          <button class="md-header__button md-icon" aria-label="Select language">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12.87 15.07-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04M18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12m-2.62 7 1.62-4.33L19.12 17h-3.24Z"/></svg>
+          </button>
+          <div class="md-select__inner">
+            <ul class="md-select__list">
+              
+                <li class="md-select__item">
+                  <a href="./" hreflang="en" class="md-select__link">
+                    English
+                  </a>
+                </li>
+              
+                <li class="md-select__item">
+                  <a href="../zh/database/" hreflang="zh" class="md-select__link">
+                    中文
+                  </a>
+                </li>
+              
+            </ul>
+          </div>
+        </div>
+      </div>
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/learnforpractice/pscdk-book" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Go Smart Contracts Development Cook Book" class="md-nav__button md-logo" aria-label="Go Smart Contracts Development Cook Book" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Go Smart Contracts Development Cook Book
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/learnforpractice/pscdk-book" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prelude/" class="md-nav__link">
+        Prerequisite Knowledge
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../env/" class="md-nav__link">
+        Env
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../helloworld/" class="md-nav__link">
+        HelloWorld
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deploy/" class="md-nav__link">
+        Deploying a Smart Contract
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ui/" class="md-nav__link">
+        Interact with Digital Wallets
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../action/" class="md-nav__link">
+        Action
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../notify/" class="md-nav__link">
+        RequireRecipient Function
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Database Operations
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Database Operations
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#store" class="md-nav__link">
+    Store
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#findupdate" class="md-nav__link">
+    Find/Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    Remove
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lowerboundupperbound" class="md-nav__link">
+    Lowerbound/Upperbound
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-api-to-query-the-table" class="md-nav__link">
+    Using API to Query the Table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secondary-index-operations" class="md-nav__link">
+    Secondary Index Operations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-secondary-index" class="md-nav__link">
+    Updating Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-a-secondary-index" class="md-nav__link">
+    Querying a Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-a-secondary-index" class="md-nav__link">
+    Removing a Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-apis-to-query-a-table-with-secondary-index" class="md-nav__link">
+    Using APIs to Query a Table with Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../crypto/" class="md-nav__link">
+        Cryptography Related Functions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../common/" class="md-nav__link">
+        Common Smart Contract Functions
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../abi/" class="md-nav__link">
+        Detailed Explanation of ABI Types
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../callc/" class="md-nav__link">
+        Calling C/C++ Code in Go
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#store" class="md-nav__link">
+    Store
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#findupdate" class="md-nav__link">
+    Find/Update
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#remove" class="md-nav__link">
+    Remove
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lowerboundupperbound" class="md-nav__link">
+    Lowerbound/Upperbound
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-api-to-query-the-table" class="md-nav__link">
+    Using API to Query the Table
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#secondary-index-operations" class="md-nav__link">
+    Secondary Index Operations
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#updating-secondary-index" class="md-nav__link">
+    Updating Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#querying-a-secondary-index" class="md-nav__link">
+    Querying a Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#removing-a-secondary-index" class="md-nav__link">
+    Removing a Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-apis-to-query-a-table-with-secondary-index" class="md-nav__link">
+    Using APIs to Query a Table with Secondary Index
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    Conclusion
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="database-operations">Database Operations</h1>
+<p>Storing and retrieving data on the chain is a critical feature of smart contracts. The EOS chain has implemented a memory database that supports data storage in the form of tables. Each entry in each table has a unique primary index, known as the primary key, which is a uint64 type. The raw data stored in the table is binary data of any length. When a smart contract calls the data storage function, it serializes the class data and stores it in the table. When reading, it deserializes the raw data into class objects. The system also supports secondary index tables with uint64, Uint128, Uint256, Float64, Float128 types. Secondary index tables can be seen as special tables with fixed data length. Primary index tables and secondary index tables can be used together to implement multi-index functions. There can be multiple secondary index tables. The values in the secondary index tables can be repeated, but the primary keys in the primary index tables must be unique.</p>
+<p>Below, the use of EOS's on-chain memory database is explained with examples.</p>
+<h2 id="store">Store</h2>
+<p>The storage function is the simplest function of the database. The following code demonstrates this function.</p>
+<p><a href="https://github.com/learnforpractice/gscdk-book/tree/master/examples/db_example1">db_example1</a></p>
+<div class="highlight"><pre><span></span><code><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/uuosio/chain&quot;</span>
+<span class="p">)</span>
+
+<span class="c1">// table mytable</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="kt">uint64</span><span class="w"> </span><span class="c1">//primary</span>
+<span class="w">    </span><span class="nx">b</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">// contract test</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">MyContract</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Receiver</span><span class="w">      </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">FirstReceiver</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">Action</span><span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewContract</span><span class="p">(</span><span class="nx">receiver</span><span class="p">,</span><span class="w"> </span><span class="nx">firstReceiver</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">MyContract</span><span class="p">{</span><span class="nx">receiver</span><span class="p">,</span><span class="w"> </span><span class="nx">firstReceiver</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// action teststore</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestStore</span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">payer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">A</span><span class="p">{</span><span class="mi">123</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;hello, world&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Store</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Let's explain the above code:</p>
+<ul>
+<li>The comment <code>// table mytable</code> guides the compiler to generate code related to the table, such as NewATable, which is generated code saved in the <code>generated.go</code> file.</li>
+<li>The comment <code>// contract test</code> indicates that <code>MyContract</code> is a smart contract class, and it will also guide the compiler to generate additional code.</li>
+<li><code>// action teststore</code> means that the <code>TestStore</code> method is an <code>action</code>, and it will be triggered by the Action structure included in the Transaction.</li>
+<li><code>NewATable(code)</code> specifies the creation of a table, which is stored in the account specified by <code>code</code>. In this test case, it's the <code>hello</code> account.</li>
+<li>The line of code <code>mytable.Store(data, payer)</code> stores the data into the blockchain database. The <code>payer</code> is used to specify which account will pay for RAM resources and needs to have already signed with the account's <code>active</code> permission in the Transaction.</li>
+</ul>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example1
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_store
+</code></pre></div>
+<p>The test code run is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">test_store</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">init_db_test</span><span class="p">(</span><span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;++++++++++</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+</code></pre></div>
+<p>Note in this example, if there is already data in the table with a primary index of <code>123</code> of type <code>uint64</code>, then the function will throw an exception.</p>
+<p>If you modify the above test case to the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">test_example1</span><span class="p">():</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">init_db_test</span><span class="p">(</span><span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;++++++++++</span><span class="si">%s</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ret</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+
+    <span class="c1"># will raise exception</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">t</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+</code></pre></div>
+<p>Using the same command to run the test, the function will throw an exception like the following when calling <code>push_action</code> for the second time:</p>
+<div class="highlight"><pre><span></span><code>could not insert object, most likely a uniqueness constraint was violated
+</code></pre></div>
+<p>In order to avoid exceptions, when updating data in the table, you need to use the <code>Update</code> method.
+Before calling <code>Store</code>, you need to check whether the primary index exists in the table. If it already exists, you cannot call the <code>Store</code> method, but must call the <code>Update</code> method.
+The following example shows the usage:</p>
+<h2 id="findupdate">Find/Update</h2>
+<p>This section demonstrates the database's search and update functions.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// db_example1</span>
+
+<span class="c1">// action testupdate</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestUpdate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">payer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">it</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">GetByKey</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">it</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;bad key&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;+++++++old value:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">.</span><span class="nx">b</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">data</span><span class="p">.</span><span class="nx">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;goodbye world&quot;</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Update</span><span class="p">(</span><span class="nx">it</span><span class="p">,</span><span class="w"> </span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;done!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Testing code:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_update</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testupdate&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+</code></pre></div>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example1
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Testing:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_update
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>+++++++old value: hello, world
+</code></pre></div>
+<p>As you can see, the above code is a bit complex. You first need to call <code>GetByKey</code> to get the <code>Iterator</code> and the stored value, then use <code>it.IsOk()</code> to determine whether the value corresponding to the primary index exists or not, and finally call <code>Update</code> to update the data. The <code>payer</code> is used to specify which account will pay for RAM resources and needs to have already signed with the account's <code>active</code> permission in the Transaction. It's important to note that during the update process, <strong>the value of the primary index cannot be changed</strong>; otherwise, an exception will be thrown.</p>
+<p>You can try changing the update code to:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">data</span><span class="p">.</span><span class="nx">a</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="nx">data</span><span class="p">.</span><span class="nx">b</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;goodbye world&quot;</span>
+</code></pre></div>
+<p>You will see an exception thrown in the smart contract, indicating:</p>
+<div class="highlight"><pre><span></span><code>mi.Update: Can not change primary key during update
+</code></pre></div>
+<h2 id="remove">Remove</h2>
+<p>The following code shows how to delete an item from the database.</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// db_example1</span>
+<span class="c1">// action testremove</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestRemove</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">it</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">it</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;key 123 does not exists!&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Remove</span><span class="p">(</span><span class="nx">it</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">it</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(!</span><span class="nx">it</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;something went wrong&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;+++++done!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>The above code first calls the <code>mytable.Find(123)</code> method to find the specified data, then calls <code>Remove</code> to delete it, and uses <code>it.IsOk()</code> to check whether the data at the specified index exists or not.</p>
+<p><strong>Note:</strong></p>
+<p>The <code>Remove</code> here does not need to call the <code>payer</code> account's permission specified in <code>Store</code> or <code>Update</code> to delete the data. So, in actual applications, you need to call <code>chain.RequireAuth</code> to ensure the specified account's permission can delete the data, for example:
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">RequireAuth</span><span class="p">(</span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewName</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">))</span>
+</code></pre></div></p>
+<p>Test code:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_remove</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testremove&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+</code></pre></div>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example1
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_remove
+</code></pre></div>
+<h2 id="lowerboundupperbound">Lowerbound/Upperbound</h2>
+<p>These two methods are also used to find elements in the table. Unlike the <code>find</code> method, these two functions are used for fuzzy searching. The <code>lowerbound</code> method returns an <code>Iterator</code> that is <code>&gt;=</code> to the specified <code>id</code>, while the <code>upperbound</code> method returns an <code>Iterator</code> that is <code>&gt;</code> than the specified <code>id</code>. Let's see how to use them:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// examples/db_example1</span>
+
+<span class="c1">// action testbound</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestBound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">payer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Store</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">A</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">},</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Store</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">A</span><span class="p">{</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;2&quot;</span><span class="p">},</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Store</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">A</span><span class="p">{</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;3&quot;</span><span class="p">},</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">it</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Lowerbound</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">it</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">it</span><span class="p">.</span><span class="nx">GetPrimary</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bad Lowerbound value&quot;</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">it</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Upperbound</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">it</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">it</span><span class="p">.</span><span class="nx">GetPrimary</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;bad Upperbound value&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Test code:</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_bound</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testbound&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+</code></pre></div>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example1
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Run the test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_bound
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>++++testbound done!
+</code></pre></div>
+<h2 id="using-api-to-query-the-table">Using API to Query the Table</h2>
+<p>The above examples discuss how to operate the table in the blockchain database through smart contracts. In fact, the <code>get_table_rows</code> API interface provided by EOS can also be used to query the table on the chain. Both the <code>ChainTester</code> class in <code>ipyeos</code> and the <code>ChainApiAsync</code> and <code>ChainApi</code> classes in <code>pyeoskit</code> provide the <code>get_table_rows</code> interface to facilitate table query operations.</p>
+<p>In Python code, the definition of <code>get_table_rows</code> is as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_table_rows</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_json</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">scope</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span>
+                                <span class="n">lower_bound</span><span class="p">,</span> <span class="n">upper_bound</span><span class="p">,</span>
+                                <span class="n">limit</span><span class="p">,</span>
+                                <span class="n">key_type</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                                <span class="n">index_position</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> 
+                                <span class="n">reverse</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                                <span class="n">show_payer</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Fetch smart contract data from an account. </span>
+<span class="sd">    key_type: &quot;i64&quot;|&quot;i128&quot;|&quot;i256&quot;|&quot;float64&quot;|&quot;float128&quot;|&quot;sha256&quot;|&quot;ripemd160&quot;</span>
+<span class="sd">    index_position: &quot;2&quot;|&quot;3&quot;|&quot;4&quot;|&quot;5&quot;|&quot;6&quot;|&quot;7&quot;|&quot;8&quot;|&quot;9&quot;|&quot;10&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+</code></pre></div>
+<p>Let's explain the parameters of this interface:</p>
+<ul>
+<li><code>_json</code>: True returns data in JSON format, False returns raw data represented in hexadecimal.</li>
+<li><code>code</code>: The account where the table is located.</li>
+<li><code>scope</code>: Generally set to an empty string. When there are the same <code>code</code> and <code>table</code>, different <code>scopes</code> can be used to distinguish different tables.</li>
+<li><code>table</code>: The name of the data table to be queried.</li>
+<li><code>lower_bound</code>: Query start primary key, string type or numerical type. When it is a string type, it can represent a <code>name</code> type. If it is a hexadecimal string starting with <code>0x</code>, it represents a numerical type. If it is empty, it means querying from the starting position.</li>
+<li><code>upper_bound</code>: Query end primary key, string type or numerical type. When it is a string</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_offchain_find</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;db_example1&#39;</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;testbound&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_table_rows</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++rows: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_table_rows</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++rows: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_table_rows</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;mytable&#39;</span><span class="p">,</span> <span class="s1">&#39;1&#39;</span><span class="p">,</span> <span class="s1">&#39;2&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++rows: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+</code></pre></div>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code>+++++++rows: {&#39;rows&#39;: [&#39;01000000000000000131&#39;, &#39;02000000000000000132&#39;, &#39;05000000000000000133&#39;], &#39;more&#39;: False, &#39;next_key&#39;: &#39;&#39;}
++++++++rows: {&#39;rows&#39;: [{&#39;a&#39;: 1, &#39;b&#39;: &#39;1&#39;}, {&#39;a&#39;: 2, &#39;b&#39;: &#39;2&#39;}, {&#39;a&#39;: 5, &#39;b&#39;: &#39;3&#39;}], &#39;more&#39;: False, &#39;next_key&#39;: &#39;&#39;}
++++++++rows: {&#39;rows&#39;: [{&#39;a&#39;: 1, &#39;b&#39;: &#39;1&#39;}, {&#39;a&#39;: 2, &#39;b&#39;: &#39;2&#39;}], &#39;more&#39;: False, &#39;next_key&#39;: &#39;&#39;}
+</code></pre></div>
+<h2 id="secondary-index-operations">Secondary Index Operations</h2>
+<p>First, please look at the following example:</p>
+<p><a href="https://github.com/learnforpractice/gscdk-book/tree/master/examples/db_example2">db_example2</a></p>
+<div class="highlight"><pre><span></span><code><span class="c1">// db_example2</span>
+<span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;github.com/uuosio/chain&quot;</span>
+<span class="p">)</span>
+
+<span class="c1">// table mytable</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">A</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="kt">uint64</span><span class="w">        </span><span class="c1">//primary</span>
+<span class="w">    </span><span class="nx">b</span><span class="w"> </span><span class="kt">uint64</span><span class="w">        </span><span class="c1">//secondary</span>
+<span class="w">    </span><span class="nx">c</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Uint128</span><span class="w"> </span><span class="c1">//secondary</span>
+<span class="w">    </span><span class="nx">d</span><span class="w"> </span><span class="kt">string</span>
+<span class="p">}</span>
+
+<span class="c1">// contract db_example2</span>
+<span class="kd">type</span><span class="w"> </span><span class="nx">MyContract</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Receiver</span><span class="w">      </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">FirstReceiver</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="w">    </span><span class="nx">Action</span><span class="w">        </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span>
+<span class="p">}</span>
+
+<span class="kd">func</span><span class="w"> </span><span class="nx">NewContract</span><span class="p">(</span><span class="nx">receiver</span><span class="p">,</span><span class="w"> </span><span class="nx">firstReceiver</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Name</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">MyContract</span><span class="p">{</span><span class="nx">receiver</span><span class="p">,</span><span class="w"> </span><span class="nx">firstReceiver</span><span class="p">,</span><span class="w"> </span><span class="nx">action</span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// action teststore</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestStore</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">payer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">data</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">&amp;</span><span class="nx">A</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewUint128</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="s">&quot;1&quot;</span><span class="p">}</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Store</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;++++++++teststore done!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>In this example, two secondary indexes are defined:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">b</span><span class="w"> </span><span class="kt">uint64</span><span class="w">        </span><span class="c1">//secondary</span>
+<span class="nx">c</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Uint128</span><span class="w"> </span><span class="c1">//secondary</span>
+</code></pre></div>
+<p>Test code:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># test.py</span>
+<span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_store</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="n">deploy_contract</span><span class="p">(</span><span class="n">tester</span><span class="p">,</span> <span class="s1">&#39;db_example2&#39;</span><span class="p">)</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">push_action</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">,</span> <span class="s1">&#39;teststore&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;hello&#39;</span><span class="p">:</span> <span class="s1">&#39;active&#39;</span><span class="p">})</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
+    <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
+</code></pre></div>
+<p>Compilation:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example2
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>Run the test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_store
+</code></pre></div>
+<p>Summary: Compared with the primary index examples, if a table contains secondary indexes, the method called for storage is the same, both call the <code>Store</code> method.</p>
+<h2 id="updating-secondary-index">Updating Secondary Index</h2>
+<p>In practical applications, sometimes we need to update secondary indexes. First, look at the following code:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// db_example2</span>
+
+<span class="c1">// action testupdate</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestUpdate</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">code</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">payer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">c</span><span class="p">.</span><span class="nx">Receiver</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">NewATable</span><span class="p">(</span><span class="nx">code</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">idxb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">GetIdxTableByb</span><span class="p">()</span>
+<span class="w">    </span><span class="nx">secondaryIt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">idxb</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;secondary index 2 not found&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">Updateb</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+
+<span class="w">    </span><span class="nx">secondaryIt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">idxb</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">Primary</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;secondary index 3 not found&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;+++++++test update done!&quot;</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Pay attention to the code above:</p>
+<div class="highlight"><pre><span></span><code><span class="nx">idxb</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">mytable</span><span class="p">.</span><span class="nx">GetIdxTableByb</span><span class="p">()</span>
+<span class="nx">secondaryIt</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">idxb</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">(),</span><span class="w"> </span><span class="s">&quot;secondary index 2 not found&quot;</span><span class="p">)</span>
+<span class="nx">mytable</span><span class="p">.</span><span class="nx">Updateb</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="nx">payer</span><span class="p">)</span>
+
+<span class="nx">secondaryIt</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">idxb</span><span class="p">.</span><span class="nx">Find</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nx">chain</span><span class="p">.</span><span class="nx">Check</span><span class="p">(</span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">IsOk</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nx">secondaryIt</span><span class="p">.</span><span class="nx">Primary</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;secondary index 3 not found&quot;</span><span class="p">)</span>
+<span class="nx">chain</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;+++++++test update done!&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Here is a brief description of the process:</p>
+<ul>
+<li><code>idxb := mytable.GetIdxTableByb()</code> fetches the secondary index of <code>b</code>, <code>GetIdxTableByb</code> is an auto-generated function, you can find the code in <code>generated.go</code>.</li>
+<li><code>secondaryIt := idxb.Find(2)</code> looks for the secondary index with type <code>uint64</code> value <code>2</code>. The returned value <code>secondaryIt</code> is of type <code>SecondaryIterator</code>.</li>
+<li><strong><code>mytable.Updateb(secondaryIt, uint64(3), payer)</code></strong> This line of code implements the update functionality, updating the value of <code>b</code> to <code>3</code>. <code>Updateb</code> is an auto-generated function defined in <code>generated.go</code>.</li>
+<li><code>secondaryIt = idxb.Find(3)</code> looks for the new secondary index.</li>
+<li><code>chain.Check(secondaryIt.IsOk() &amp;&amp; secondaryIt.Primary == 1, "secondary index 3 not found")</code> is used to confirm whether the secondary index update was successful. Note that here we are also checking if the primary index is <code>1</code>.</li>
+</ul>
+<h2 id="querying-a-secondary-index">Querying a Secondary Index</h2>
+<p>Secondary indices also support query methods such as <code>Find</code>, <code>Lowerbound</code>, and <code>Upperbound</code>. The following example demonstrates how to query the values in the <code>b</code> and <code>c</code> secondary indices:</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// action testbound</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestBound</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>You can run the test case in the example directory using the following command:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_bound
+</code></pre></div>
+<h2 id="removing-a-secondary-index">Removing a Secondary Index</h2>
+<div class="highlight"><pre><span></span><code><span class="c1">// action testremove</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">MyContract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestRemove</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Here is a brief explanation of the above code:</p>
+<ul>
+<li><code>secondaryIt := idxb.Find(2)</code> looks for the secondary index.</li>
+<li><code>it := mytable.Find(secondaryIt.Primary)</code> uses <code>SecondaryIterator</code> to get the primary index, and then returns the primary index's <code>Iterator</code>.</li>
+<li><code>mytable.Remove(it)</code> removes elements from the table, including the primary index and all secondary indices.</li>
+</ul>
+<p>From the above examples, we can see that the removal of a secondary index involves first locating the primary index through the secondary index, and then deleting via the primary index.</p>
+<p>To compile:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/db_example2
+go-contract<span class="w"> </span>build<span class="w"> </span>.
+</code></pre></div>
+<p>To run the test:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_remove
+</code></pre></div>
+<h2 id="using-apis-to-query-a-table-with-secondary-index">Using APIs to Query a Table with Secondary Index</h2>
+<p>The <code>get_table_rows</code> API also supports finding corresponding values through secondary indices.</p>
+<div class="highlight"><pre><span></span><code><span class="nd">@chain_test</span>
+<span class="k">def</span> <span class="nf">test_offchain_find</span><span class="p">(</span><span class="n">tester</span><span class="p">):</span>
+    <span class="o">...</span>
+</code></pre></div>
+<p>Run the test case:</p>
+<div class="highlight"><pre><span></span><code>ipyeos<span class="w"> </span>-m<span class="w"> </span>pytest<span class="w"> </span>-s<span class="w"> </span>-x<span class="w"> </span>test.py<span class="w"> </span>-k<span class="w"> </span>test_offchain_find
+</code></pre></div>
+<p>The results of running the above test code are as follows:</p>
+<div class="highlight"><pre><span></span><code>{&#39;rows&#39;: [{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: &#39;3&#39;, &#39;d&#39;: &#39;1&#39;}, {&#39;a&#39;: 11, &#39;b&#39;: 22, &#39;c&#39;: &#39;33&#39;, &#39;d&#39;: &#39;11&#39;}, {&#39;a&#39;: 111, &#39;b&#39;: 222, &#39;c&#39;: &#39;333&#39;, &#39;d&#39;: &#39;111&#39;}], &#39;more&#39;: False, &#39;next_key&#39;: &#39;&#39;}
+{&#39;rows&#39;: [{&#39;a&#39;: 1, &#39;b&#39;: 2, &#39;c&#39;: &#39;3&#39;, &#39;d&#39;: &#39;1&#39;}, {&#39;a&#39;: 11, &#39;b&#39;: 22, &#39;c&#39;: &#39;33&#39;, &#39;d&#39;: &#39;11&#39;}, {&#39;a&#39;: 111, &#39;b&#39;: 222, &#39;c&#39;: &#39;333&#39;, &#39;d&#39;: &#39;111&#39;}], &#39;more&#39;: False, &#39;next_key&#39;: &#39;&#39;}
+</code></pre></div>
+<h2 id="conclusion">Conclusion</h2>
+<p>EOS's data storage function is quite comprehensive, and the availability of secondary index tables makes data retrieval extremely flexible. This chapter provided a detailed explanation of the add, delete, update, and query operations for database tables. There's a lot of content in this chapter, so take your time to digest it all. Try to make some modifications to the examples and run them to enhance your understanding of the knowledge points in this chapter.</p>
+
+
+
+
+
+  <h2 id="__comments">Comments</h2>
+  <!-- Insert generated snippet here -->
+  <script src="https://giscus.app/client.js"
+    data-repo="learnforpractice/gscdk-book"
+    data-repo-id="R_kgDOJOzESQ"
+    data-category="Q&A"
+    data-category-id="DIC_kwDOJOzESc4CWVU9"
+    data-mapping="title"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="preferred_color_scheme"
+    data-lang="en"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async>
+  </script>
+
+  <!-- Synchronize Giscus theme with palette -->
+  <script>
+    var giscus = document.querySelector("script[src*=giscus]")
+
+    /* Set palette on initial load */
+    var palette = __md_get("__palette")
+    if (palette && typeof palette.color === "object") {
+      var theme = palette.color.scheme === "slate" ? "dark" : "light"
+      giscus.setAttribute("data-theme", theme) 
+    }
+
+    /* Register event handlers after documented loaded */
+    // document.addEventListener("DOMContentLoaded", function() {
+    //   var ref = document.querySelector("[data-md-component=palette]")
+    //   ref.addEventListener("change", function() {
+    //     var palette = __md_get("__palette")
+    //     if (palette && typeof palette.color === "object") {
+    //       var theme = palette.color.scheme === "slate" ? "dark" : "light"
+
+    //       /* Instruct Giscus to change theme */
+    //       var frame = document.querySelector(".giscus-frame")
+    //       frame.contentWindow.postMessage(
+    //         { giscus: { setConfig: { theme } } },
+    //         "https://giscus.app"
+    //       )
+    //     }
+    //   })
+    // })
+  </script>
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.19047be9.min.js"></script>
+      
+    
+  </body>
+</html>
