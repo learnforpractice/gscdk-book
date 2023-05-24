@@ -2,10 +2,8 @@ module test
 
 go 1.19
 
-replace github.com/uuosio/chain => /Users/newworld/dev/gscdk/chain
-
 require (
-	github.com/uuosio/chain v0.2.2
+	github.com/uuosio/chain v0.2.3
 	github.com/uuosio/chaintester v0.0.0-20221108030052-a405ff36b294
 )
 

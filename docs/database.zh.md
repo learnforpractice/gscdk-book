@@ -12,7 +12,7 @@ comments: true
 
 存储功能是数据库最简单的功能了，下面的代码即演示了该功能。
 
-[db_example1](https://github.com/learnforpractice/gscdk-book/tree/main/examples/db_example1)
+[db_example1](https://github.com/learnforpractice/gscdk-book/tree/master/examples/db_example1)
 
 ```go
 package main
@@ -373,7 +373,7 @@ def test_offchain_find(tester):
 
 请先看下面的例子：
 
-[db_example2](https://github.com/learnforpractice/gscdk-book/tree/main/examples/db_example2)
+[db_example2](https://github.com/learnforpractice/gscdk-book/tree/master/examples/db_example2)
 
 ```go
 // db_example2
