@@ -53,7 +53,6 @@ func TestHello(t *testing.T) {
 	}
 	tester.ProduceBlock()
 
-	// r = self.chain.push_action('hello', 'sayhello3', b'hello,world')
 	_, err = tester.PushAction("hello", "sayhello", "", permissions)
 	if err != nil {
 		panic(err)

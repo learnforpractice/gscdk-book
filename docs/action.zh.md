@@ -56,7 +56,7 @@ func NewContract(receiver, firstReceiver, action chain.Name) *Contract {
 }
 
 // action testaction1
-func (c *Contract) SayHello3() {
+func (c *Contract) TestAction1() {
 	a := chain.NewAction(
 		&chain.PermissionLevel{
 			Actor:      c.receiver,

@@ -13,7 +13,7 @@ chaintester.chain_config['contracts_console'] = True
 
 logger = log.get_logger(__name__)
 
-def update_auth(chain, account):
+def update_auth(tester, account):
     a = {
         "account": account,
         "permission": "active",
@@ -30,18 +30,18 @@ def update_auth(chain, account):
             "waits": []
         }
     }
-    chain.push_action('eosio', 'updateauth', a, {account:'active'})
+    tester.push_action('eosio', 'updateauth', a, {account:'active'})
 
 def init_tester():
-    chain = chaintester.ChainTester()
-    update_auth(chain, 'hello')
-    return chain
+    tester = chaintester.ChainTester()
+    update_auth(tester, 'hello')
+    return tester
 
 def chain_test(fn):
     def call():
-        chain = init_tester()
-        ret = fn(chain)
-        chain.free()
+        tester = init_tester()
+        ret = fn(tester)
+        tester.free()
         return ret
     return call
 

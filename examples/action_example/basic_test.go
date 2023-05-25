@@ -56,7 +56,6 @@ func TestHello(t *testing.T) {
 	oldBalance := tester.GetBalance("hello")
 	t.Logf("++++++++old Balance: %v", oldBalance)
 
-	// r = self.chain.push_action('hello', 'sayhello3', b'hello,world')
 	_, err = tester.PushAction("hello", "testaction1", "", permissions)
 	if err != nil {
 		panic(err)
