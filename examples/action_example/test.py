@@ -73,7 +73,7 @@ def test_action(tester):
     logger.info('++++++elapsed: %s', r['elapsed'])
     tester.produce_block()
     new_balance = tester.get_balance('hello')
-    assert abs(old_balance - new_balance - 1.0000) < 1e-6
+    assert old_balance - new_balance == 10000
     logger.info("+++++++old_balance: %s, new_balance: %s", old_balance, new_balance)
 
     old_balance = tester.get_balance('hello')
@@ -82,4 +82,4 @@ def test_action(tester):
     tester.produce_block()
     new_balance = tester.get_balance('hello')
     logger.info("+++++++old_balance: %s, new_balance: %s", old_balance, new_balance)
-    assert abs(old_balance - new_balance - 1.0000) < 1e-6
+    assert old_balance - new_balance == 10000
