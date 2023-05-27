@@ -580,7 +580,7 @@ func (c *MyContract) TestRemove() {
 解释一下上面的代码：
 
 - `secondaryIt := idxb.Find(2)` 查找二重索引
-- `it := mytable.Find(secondaryIt.Primary)` 通过`SecondaryIterator`获取主索引，再通过主索引返回庆索引的`Iterator`
+- `it := mytable.Find(secondaryIt.Primary)` 通过`SecondaryIterator`获取主索引，再通过主索引返回主索引的`Iterator`
 - `mytable.Remove(it)` 删除表中的元素，包含主索引和所有二重索引
 
 从上面的例子中可以看出，二重索引的删除是先通过二重索引找到主索引：，再通过主索引来删除的
