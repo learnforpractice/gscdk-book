@@ -470,7 +470,7 @@
 <span class="p">}</span>
 
 <span class="c1">// action testaction1</span>
-<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Contract</span><span class="p">)</span><span class="w"> </span><span class="nx">SayHello3</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">c</span><span class="w"> </span><span class="o">*</span><span class="nx">Contract</span><span class="p">)</span><span class="w"> </span><span class="nx">TestAction1</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nx">a</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">chain</span><span class="p">.</span><span class="nx">NewAction</span><span class="p">(</span>
 <span class="w">        </span><span class="o">&amp;</span><span class="nx">chain</span><span class="p">.</span><span class="nx">PermissionLevel</span><span class="p">{</span>
 <span class="w">            </span><span class="nx">Actor</span><span class="p">:</span><span class="w">      </span><span class="nx">c</span><span class="p">.</span><span class="nx">receiver</span><span class="p">,</span>
@@ -534,7 +534,7 @@
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s1">&#39;++++++elapsed: </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">r</span><span class="p">[</span><span class="s1">&#39;elapsed&#39;</span><span class="p">])</span>
     <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
     <span class="n">new_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">-</span> <span class="mf">1.0000</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+    <span class="k">assert</span> <span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">==</span> <span class="mi">10000</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++old_balance: </span><span class="si">%s</span><span class="s2">, new_balance: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">old_balance</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">)</span>
 
     <span class="n">old_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
@@ -543,7 +543,7 @@
     <span class="n">tester</span><span class="o">.</span><span class="n">produce_block</span><span class="p">()</span>
     <span class="n">new_balance</span> <span class="o">=</span> <span class="n">tester</span><span class="o">.</span><span class="n">get_balance</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;+++++++old_balance: </span><span class="si">%s</span><span class="s2">, new_balance: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">old_balance</span><span class="p">,</span> <span class="n">new_balance</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">abs</span><span class="p">(</span><span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">-</span> <span class="mf">1.0000</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-6</span>
+    <span class="k">assert</span> <span class="n">old_balance</span> <span class="o">-</span> <span class="n">new_balance</span> <span class="o">==</span> <span class="mi">10000</span>
 </code></pre></div>
 <p>编译：</p>
 <div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>examples/action_example
