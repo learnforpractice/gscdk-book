@@ -4,10 +4,13 @@ comments: true
 
 # Prerequisite Knowledge
 
+## How to Use This Document
+
+This document uses example code to introduce relevant knowledge points related to smart contracts. The knowledge points involved in smart contracts are relatively few. In order to master the use of smart contracts more quickly, readers need to run the examples while reading the content of this document.
+
 ## What is a Smart Contract
 
-A smart contract is code that can be executed on the blockchain.
-
+Smart contracts are code that can be executed on a blockchain. A blockchain is a distributed database, also known as a distributed ledger, maintained by a group of nodes (computers) with the same functionality. Each node stores a copy of this distributed database. These nodes collectively form a blockchain network. On-chain execution means that smart contracts are executed on every node. The main function of smart contracts is to perform operations such as adding, deleting, and modifying data in the database, and the node software ensures the consistency of the execution results on each node.
 ## What is a Go Smart Contract
 
 A Go smart contract is code written in the Go language that can be executed on a blockchain. Taking the EOS network as an example, the code for a Go smart contract is compiled into a binary file called WebAssembly, which can be deployed and executed on the blockchain, allowing it to manipulate data on the chain.
@@ -23,6 +26,8 @@ On the EOS blockchain, each transaction entity is represented by an account. The
 The following is a brief overview of the information contained in an account, based on the information returned by EOS's `get_account` RPC interface with the following code:
 
 ```python
+from pyeoskit import eosapi
+eosapi.set_node("https://eos.greymass.com")
 eosapi.get_account("testaccount")
 ```
 
